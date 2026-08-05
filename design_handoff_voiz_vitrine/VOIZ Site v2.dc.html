@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet"><script src="./image-slot.js"></script><style>body{margin:0;background:#06070b;font-family:Inter,system-ui,sans-serif;color:#e6e7e2;overflow-x:hidden}a{color:#e6e7e2;text-decoration:none}a:hover{color:#FF5300}::selection{background:#FF5300;color:#06070b}html{scroll-behavior:smooth}#contact input::placeholder,#contact textarea::placeholder{color:rgba(6,7,11,.65)}@keyframes vz-marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}@keyframes vz-eq{0%,100%{transform:scaleY(.25)}50%{transform:scaleY(1)}}@keyframes vz-spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}@keyframes vz-glow{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(4vw,6vh) scale(1.15)}66%{transform:translate(-5vw,-4vh) scale(.92)}}@keyframes vz-glow2{0%,100%{transform:translate(0,0) scale(1)}40%{transform:translate(-6vw,5vh) scale(1.2)}75%{transform:translate(5vw,-6vh) scale(.9)}}</style></helmet>
+<div style="background:#06070b;min-height:100vh;position:relative">
+{{ bgGlow }}
+<div style="position:fixed;inset:0;z-index:60;pointer-events:none;opacity:.05;background-image:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.9'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E&quot;)"></div>
+
+<nav style="position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:22px 40px;mix-blend-mode:difference">
+  <a href="#top"><img src="assets/logo-blanc.svg" alt="VOIZ" style="height:36px;display:block;filter:brightness(0) invert(.98)"></a>
+  <div style="display:flex;align-items:center;gap:32px;font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase">
+    <a href="#projets">Projets</a><a href="#services">Services</a><a href="#about">About</a><a href="#contact" style="border-bottom:2px solid #FF5300;padding-bottom:2px">Contact</a>
+    <button onClick="{{ toggleLang }}" style="background:none;border:1px solid rgba(230,231,226,.4);border-radius:999px;color:#e6e7e2;font:600 11px Inter;letter-spacing:.12em;padding:6px 13px;cursor:pointer" style-hover="border-color:#FF5300;color:#FF5300">{{ langLabel }}</button>
+  </div>
+</nav>
+
+<header id="top" style="position:relative;height:100vh;min-height:700px;overflow:hidden">
+  <video src="assets/anim_voiz.mp4" ref="{{ videoRef }}" autoPlay muted loop playsInline preload="auto" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.9"></video>
+  <div style="position:absolute;inset:0;background:radial-gradient(ellipse 70% 55% at 50% 42%,rgba(255,83,0,.14) 0%,transparent 60%),radial-gradient(ellipse 110% 90% at 50% 35%,transparent 45%,rgba(6,7,11,.9) 100%),linear-gradient(180deg,transparent 55%,#06070b 100%)"></div>
+  <div style="position:absolute;left:40px;right:40px;bottom:110px;display:flex;justify-content:space-between;align-items:flex-end;gap:40px">
+    <div>
+    <h1 style="margin:0;font-size:clamp(34px,4vw,58px);line-height:.9;letter-spacing:-.03em;font-weight:900;text-transform:uppercase">Vortex <span style="color:transparent;-webkit-text-stroke:1.5px #e6e7e2">of</span> <span style="color:#FF5300">Noise</span></h1>
+    <p style="font-family:'Instrument Serif',serif;font-style:italic;font-size:clamp(16px,1.4vw,20px);margin:14px 0 0;color:rgba(230,231,226,.8)">{{ t.mantra }}</p>
+    </div>
+    <div style="display:flex;gap:14px;align-items:center;flex:none">
+      <a href="#contact" style="background:#FF5300;color:#06070b;font-weight:700;font-size:13px;letter-spacing:.1em;text-transform:uppercase;padding:16px 34px;border-radius:999px" style-hover="background:#e6e7e2">{{ t.ctaContact }}</a>
+      <a href="#projets" style="display:flex;align-items:center;gap:12px;border:1px solid rgba(230,231,226,.4);padding:14px 28px;border-radius:999px;font-weight:600;font-size:13px;letter-spacing:.1em;text-transform:uppercase" style-hover="border-color:#FF5300">{{ eq }}{{ t.ctaListen }}</a>
+    </div>
+  </div>
+  <div style="position:absolute;bottom:0;left:0;right:0">{{ marquee }}</div>
+</header>
+
+<section style="position:relative;padding:150px 40px 130px;max-width:1280px;margin:0 auto">
+  <div style="position:absolute;top:150px;left:40px;font-size:12px;letter-spacing:.4em;text-transform:uppercase;color:#FF5300;font-weight:700;writing-mode:vertical-rl;transform:rotate(180deg)">{{ t.pitchKicker }} · 01</div>
+  <div style="display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:80px;align-items:end;padding-left:90px">
+    <p style="font-size:clamp(30px,3.4vw,46px);line-height:1.22;margin:0;font-weight:400;letter-spacing:-.01em;text-wrap:pretty">{{ t.pitchA }} <span style="font-family:'Instrument Serif',serif;font-style:italic;color:#FF5300">{{ t.pitchB }}</span> {{ t.pitchC }}</p>
+    <div style="position:relative">
+      <div style="height:300px;transform:rotate(2deg)"><image-slot id="studio" shape="rounded" radius="4" placeholder="Photo du studio"></image-slot></div>
+      <div style="position:absolute;top:-22px;left:-22px">{{ vortexBadge }}</div>
+    </div>
+  </div>
+</section>
+
+<section id="projets" style="position:relative;padding:0 40px 140px;max-width:1280px;margin:0 auto">
+  <div style="display:flex;align-items:baseline;gap:24px;margin-bottom:60px">
+    <h2 style="margin:0;font-size:clamp(52px,7vw,110px);font-weight:900;letter-spacing:-.04em;text-transform:uppercase;line-height:1">{{ t.projTitle }}</h2>
+    <span style="font-family:'Instrument Serif',serif;font-style:italic;font-size:clamp(22px,2.6vw,34px);color:#FF5300">(08)</span>
+  </div>
+  <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:40px">
+    <span style="background:#FF5300;color:#06070b;font-size:12px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;padding:8px 18px;border-radius:999px">Tous</span>
+    <span style="border:1px solid #3F3F3F;font-size:12px;letter-spacing:.12em;text-transform:uppercase;font-weight:600;padding:8px 18px;border-radius:999px;cursor:pointer" style-hover="border-color:#FF5300;color:#FF5300">Cinéma</span>
+    <span style="border:1px solid #3F3F3F;font-size:12px;letter-spacing:.12em;text-transform:uppercase;font-weight:600;padding:8px 18px;border-radius:999px;cursor:pointer" style-hover="border-color:#FF5300;color:#FF5300">Publicité</span>
+    <span style="border:1px solid #3F3F3F;font-size:12px;letter-spacing:.12em;text-transform:uppercase;font-weight:600;padding:8px 18px;border-radius:999px;cursor:pointer" style-hover="border-color:#FF5300;color:#FF5300">Spectacle vivant</span>
+    <span style="border:1px solid #3F3F3F;font-size:12px;letter-spacing:.12em;text-transform:uppercase;font-weight:600;padding:8px 18px;border-radius:999px;cursor:pointer" style-hover="border-color:#FF5300;color:#FF5300">Jeux vidéo</span>
+    <span style="border:1px solid #3F3F3F;font-size:12px;letter-spacing:.12em;text-transform:uppercase;font-weight:600;padding:8px 18px;border-radius:999px;cursor:pointer" style-hover="border-color:#FF5300;color:#FF5300">Musique</span>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(6,1fr);grid-auto-rows:128px;grid-auto-flow:dense;gap:20px">
+    <div style="grid-column:span 4;grid-row:span 2;position:relative;border-radius:6px;overflow:hidden">
+      <image-slot id="proj-1" shape="rect" placeholder="Court-métrage · image clé"></image-slot>
+      <span style="position:absolute;top:14px;left:18px;font-family:'Instrument Serif',serif;font-style:italic;font-size:44px;line-height:1;color:transparent;-webkit-text-stroke:1.2px #e6e7e2;pointer-events:none">01</span>
+      <div style="position:absolute;left:0;right:0;bottom:0;padding:20px;background:linear-gradient(180deg,transparent,rgba(6,7,11,.92));pointer-events:none;display:flex;align-items:flex-end;justify-content:space-between;gap:16px">
+        <div><div style="font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:#FF5300;font-weight:700">Cinéma</div>
+        <div style="font-size:19px;font-weight:700;margin-top:4px">{{ t.proj1 }}</div></div>
+        <div style="width:46px;height:46px;border-radius:50%;background:#FF5300;color:#06070b;display:flex;align-items:center;justify-content:center;font-size:16px;flex:none">▶</div>
+      </div>
+    </div>
+    <div style="grid-column:span 2;grid-row:span 2;background:#0b0c11;border:1px solid #3F3F3F;border-radius:6px;padding:24px;display:flex;flex-direction:column;justify-content:space-between;transform:rotate(1deg)" style-hover="transform:rotate(0deg);border-color:#FF5300">
+      <div style="display:flex;justify-content:space-between;align-items:baseline"><span style="font-family:'Instrument Serif',serif;font-style:italic;font-size:40px;line-height:1;color:transparent;-webkit-text-stroke:1.2px #FF5300">02</span><span style="font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:#FF5300;font-weight:700">Audio</span></div>
+      <div><div style="font-size:19px;font-weight:700">EP « Inner Garden »</div>
+      <div style="font-size:13px;color:#a3a4a0;margin-top:4px">Musique · mix & mastering</div></div>
+      <div style="display:flex;align-items:center;gap:14px">
+        <div style="width:46px;height:46px;border-radius:50%;border:1.5px solid #FF5300;color:#FF5300;display:flex;align-items:center;justify-content:center;font-size:15px;flex:none;cursor:pointer" style-hover="background:#FF5300;color:#06070b">▶</div>
+        <div style="flex:1;height:34px;background:repeating-linear-gradient(90deg,#FF5300 0 2px,transparent 2px 5px);opacity:.6;-webkit-mask-image:radial-gradient(ellipse 100% 260% at 50% 50%,#000 40%,transparent 41%);mask-image:radial-gradient(ellipse 100% 260% at 50% 50%,#000 40%,transparent 41%)"></div>
+        <span style="font-size:12px;color:#a3a4a0">3:42</span>
+      </div>
+    </div>
+    <div style="grid-column:span 2;grid-row:span 4;position:relative;border-radius:6px;overflow:hidden">
+      <image-slot id="proj-3" shape="rect" placeholder="Spectacle · image clé (portrait)"></image-slot>
+      <span style="position:absolute;top:14px;left:18px;font-family:'Instrument Serif',serif;font-style:italic;font-size:44px;line-height:1;color:transparent;-webkit-text-stroke:1.2px #e6e7e2;pointer-events:none">03</span>
+      <div style="position:absolute;left:0;right:0;bottom:0;padding:18px;background:linear-gradient(180deg,transparent,rgba(6,7,11,.92));pointer-events:none;display:flex;align-items:flex-end;justify-content:space-between;gap:12px">
+        <div><div style="font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:#FF5300;font-weight:700">Spectacle vivant</div>
+        <div style="font-size:16px;font-weight:700;margin-top:4px">{{ t.proj3 }}</div></div>
+        <div style="width:40px;height:40px;border-radius:50%;background:#FF5300;color:#06070b;display:flex;align-items:center;justify-content:center;font-size:14px;flex:none">▶</div>
+      </div>
+    </div>
+    <div style="grid-column:span 2;grid-row:span 2;position:relative;border-radius:6px;overflow:hidden">
+      <image-slot id="proj-2" shape="rect" placeholder="Publicité · image clé"></image-slot>
+      <span style="position:absolute;top:14px;left:18px;font-family:'Instrument Serif',serif;font-style:italic;font-size:44px;line-height:1;color:transparent;-webkit-text-stroke:1.2px #e6e7e2;pointer-events:none">04</span>
+      <div style="position:absolute;left:0;right:0;bottom:0;padding:18px;background:linear-gradient(180deg,transparent,rgba(6,7,11,.92));pointer-events:none;display:flex;align-items:flex-end;justify-content:space-between;gap:12px">
+        <div><div style="font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:#FF5300;font-weight:700">Publicité</div>
+        <div style="font-size:16px;font-weight:700;margin-top:4px">{{ t.proj2 }}</div></div>
+        <div style="width:40px;height:40px;border-radius:50%;background:#FF5300;color:#06070b;display:flex;align-items:center;justify-content:center;font-size:14px;flex:none">▶</div>
+      </div>
+    </div>
+    <div style="grid-column:span 2;grid-row:span 2;background:#0b0c11;border:1px solid #3F3F3F;border-radius:6px;padding:24px;display:flex;flex-direction:column;justify-content:space-between;transform:rotate(-1deg)" style-hover="transform:rotate(0deg);border-color:#FF5300">
+      <div style="display:flex;justify-content:space-between;align-items:baseline"><span style="font-family:'Instrument Serif',serif;font-style:italic;font-size:40px;line-height:1;color:transparent;-webkit-text-stroke:1.2px #FF5300">05</span><span style="font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:#FF5300;font-weight:700">Audio</span></div>
+      <div><div style="font-size:19px;font-weight:700">Expérience immersive</div>
+      <div style="font-size:13px;color:#a3a4a0;margin-top:4px">Création personnelle · sound design & musique</div></div>
+      <div style="display:flex;align-items:center;gap:14px">
+        <div style="width:46px;height:46px;border-radius:50%;border:1.5px solid #FF5300;color:#FF5300;display:flex;align-items:center;justify-content:center;font-size:15px;flex:none;cursor:pointer" style-hover="background:#FF5300;color:#06070b">▶</div>
+        <div style="flex:1;height:34px;background:repeating-linear-gradient(90deg,#FF5300 0 2px,transparent 2px 5px);opacity:.6;-webkit-mask-image:radial-gradient(ellipse 100% 260% at 50% 50%,#000 40%,transparent 41%);mask-image:radial-gradient(ellipse 100% 260% at 50% 50%,#000 40%,transparent 41%)"></div>
+        <span style="font-size:12px;color:#a3a4a0">2:18</span>
+      </div>
+    </div>
+    <div style="grid-column:span 2;grid-row:span 2;position:relative;border-radius:6px;overflow:hidden">
+      <image-slot id="proj-4" shape="rect" placeholder="Jeu vidéo · image clé"></image-slot>
+      <span style="position:absolute;top:14px;left:18px;font-family:'Instrument Serif',serif;font-style:italic;font-size:44px;line-height:1;color:transparent;-webkit-text-stroke:1.2px #e6e7e2;pointer-events:none">06</span>
+      <div style="position:absolute;left:0;right:0;bottom:0;padding:18px;background:linear-gradient(180deg,transparent,rgba(6,7,11,.92));pointer-events:none;display:flex;align-items:flex-end;justify-content:space-between;gap:12px">
+        <div><div style="font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:#FF5300;font-weight:700">Jeux vidéo</div>
+        <div style="font-size:16px;font-weight:700;margin-top:4px">Trailer · sound design & mix</div></div>
+        <div style="width:40px;height:40px;border-radius:50%;background:#FF5300;color:#06070b;display:flex;align-items:center;justify-content:center;font-size:14px;flex:none">▶</div>
+      </div>
+    </div>
+    <div style="grid-column:span 2;grid-row:span 2;background:#FF5300;color:#06070b;border-radius:6px;padding:24px;display:flex;flex-direction:column;justify-content:space-between;transform:rotate(1deg)" style-hover="transform:rotate(0deg)">
+      <div style="display:flex;justify-content:space-between;align-items:baseline"><span style="font-family:'Instrument Serif',serif;font-style:italic;font-size:40px;line-height:1;color:transparent;-webkit-text-stroke:1.2px #06070b">07</span><span style="font-size:11px;letter-spacing:.22em;text-transform:uppercase;font-weight:700">Audio</span></div>
+      <div><div style="font-size:19px;font-weight:700">Single · artiste rap</div>
+      <div style="font-size:13px;opacity:.7;margin-top:4px">Musique · prod, mix & mastering</div></div>
+      <div style="display:flex;align-items:center;gap:14px">
+        <div style="width:46px;height:46px;border-radius:50%;border:1.5px solid #06070b;display:flex;align-items:center;justify-content:center;font-size:15px;flex:none;cursor:pointer" style-hover="background:#06070b;color:#FF5300">▶</div>
+        <div style="flex:1;height:34px;background:repeating-linear-gradient(90deg,#06070b 0 2px,transparent 2px 5px);opacity:.7;-webkit-mask-image:radial-gradient(ellipse 100% 260% at 50% 50%,#000 40%,transparent 41%);mask-image:radial-gradient(ellipse 100% 260% at 50% 50%,#000 40%,transparent 41%)"></div>
+        <span style="font-size:12px;opacity:.7">2:56</span>
+      </div>
+    </div>
+    <div style="grid-column:span 6;grid-row:span 2;position:relative;border-radius:6px;overflow:hidden">
+      <image-slot id="proj-5" shape="rect" placeholder="Motion design · image clé"></image-slot>
+      <span style="position:absolute;top:14px;left:18px;font-family:'Instrument Serif',serif;font-style:italic;font-size:44px;line-height:1;color:transparent;-webkit-text-stroke:1.2px #e6e7e2;pointer-events:none">08</span>
+      <div style="position:absolute;left:0;right:0;bottom:0;padding:18px;background:linear-gradient(180deg,transparent,rgba(6,7,11,.92));pointer-events:none;display:flex;align-items:flex-end;justify-content:space-between;gap:12px">
+        <div><div style="font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:#FF5300;font-weight:700">Motion design</div>
+        <div style="font-size:16px;font-weight:700;margin-top:4px">Identité sonore & habillage</div></div>
+        <div style="width:40px;height:40px;border-radius:50%;background:#FF5300;color:#06070b;display:flex;align-items:center;justify-content:center;font-size:14px;flex:none">▶</div>
+      </div>
+    </div>
+  </div>
+  <div style="display:flex;justify-content:center;margin-top:70px"><a href="#" style="font-family:'Instrument Serif',serif;font-style:italic;font-size:30px;color:#FF5300;border-bottom:1px solid #FF5300">{{ t.projAll }} →</a></div>
+</section>
+
+<div>{{ marqueeIvory }}</div>
+
+<section id="services" style="padding:130px 40px;max-width:1280px;margin:0 auto">
+  <div style="display:flex;align-items:baseline;gap:24px;margin-bottom:60px">
+    <h2 style="margin:0;font-size:clamp(52px,7vw,110px);font-weight:900;letter-spacing:-.04em;text-transform:uppercase;line-height:1">{{ t.servTitle }}</h2>
+    <span style="font-family:'Instrument Serif',serif;font-style:italic;font-size:clamp(22px,2.6vw,34px);color:#FF5300">(05)</span>
+  </div>
+  <div style="display:flex;flex-direction:column">
+    <sc-for list="{{ services }}" as="s" hint-placeholder-count="5">
+      <div style="display:grid;grid-template-columns:76px 1fr;gap:28px;align-items:center;padding:34px 20px 34px 12px;border-top:1px solid #3F3F3F" style-hover="background:#FF5300;color:#06070b">
+        <div style="font-family:'Instrument Serif',serif;font-style:italic;font-size:44px;opacity:.9">{{ s.num }}</div>
+        <div><div style="font-size:clamp(24px,2.6vw,36px);font-weight:700;letter-spacing:-.02em">{{ s.name }}</div>
+        <div style="font-size:15px;opacity:.65;margin-top:6px;max-width:560px">{{ s.desc }}</div></div>
+
+      </div>
+    </sc-for>
+    <div style="border-top:1px solid #3F3F3F"></div>
+  </div>
+  <p style="font-family:'Instrument Serif',serif;font-style:italic;font-size:clamp(22px,2.4vw,32px);line-height:1.35;margin:70px auto 0;max-width:820px;text-align:center;color:#FF5300;text-wrap:pretty">« {{ t.positioning }} »</p>
+</section>
+
+<section style="padding:130px 40px">
+  <div style="max-width:1100px;margin:0 auto">
+    <div style="font-size:12px;letter-spacing:.4em;text-transform:uppercase;color:#FF5300;font-weight:700;margin-bottom:50px">{{ t.quotesKicker }}</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:start">
+      <div style="background:#0b0c11;border:1px solid #3F3F3F;border-radius:6px;padding:38px 36px;display:flex;flex-direction:column;gap:22px;transform:rotate(-1.2deg);position:relative" style-hover="transform:rotate(0deg);border-color:#FF5300">
+        <div style="position:absolute;top:-16px;left:32px;background:#FF5300;color:#06070b;font-size:11px;letter-spacing:.2em;text-transform:uppercase;font-weight:700;padding:5px 14px;transform:rotate(1.5deg)">Court-métrage</div>
+        <span style="font-family:'Instrument Serif',serif;font-style:italic;font-size:64px;line-height:.4;color:transparent;-webkit-text-stroke:1.2px #FF5300;margin-top:14px">01</span>
+        <p style="font-size:18px;line-height:1.65;margin:0;text-wrap:pretty">{{ t.quote1 }}</p>
+        <div style="margin-top:auto;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:#a3a4a0;font-weight:600">David Le Royer · <span style="color:#FF5300">Réalisateur</span></div>
+      </div>
+      <div style="background:#e6e7e2;color:#06070b;border-radius:6px;padding:38px 36px;display:flex;flex-direction:column;gap:22px;transform:rotate(1.2deg) translateY(46px);position:relative" style-hover="transform:rotate(0deg) translateY(46px)">
+        <div style="position:absolute;top:-16px;left:32px;background:#06070b;color:#e6e7e2;font-size:11px;letter-spacing:.2em;text-transform:uppercase;font-weight:700;padding:5px 14px;transform:rotate(-1.5deg)">Composition</div>
+        <span style="font-family:'Instrument Serif',serif;font-style:italic;font-size:64px;line-height:.4;color:transparent;-webkit-text-stroke:1.2px #FF5300;margin-top:14px">02</span>
+        <p style="font-size:18px;line-height:1.65;margin:0;text-wrap:pretty">{{ t.quote2 }}</p>
+        <div style="margin-top:auto;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:#3F3F3F;font-weight:600">Paul Guédon · <span style="color:#FF5300">Compositeur</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="about" style="padding:110px 40px 150px;max-width:1280px;margin:0 auto;display:grid;grid-template-columns:auto minmax(0,1fr);gap:90px;align-items:center">
+  <div style="position:relative;width:260px;height:260px">
+    <image-slot id="liam" shape="circle" style="width:260px;height:260px" placeholder="Portrait Liam"></image-slot>
+    <div style="position:absolute;inset:-30px;pointer-events:none">{{ orbitText }}</div>
+  </div>
+  <div>
+    <div style="font-size:12px;letter-spacing:.4em;text-transform:uppercase;color:#FF5300;font-weight:700;margin-bottom:24px">{{ t.aboutKicker }} · 04</div>
+    <p style="font-size:clamp(22px,2.2vw,30px);line-height:1.45;margin:0;max-width:700px;text-wrap:pretty">{{ t.about }}</p>
+    <p style="font-size:16px;line-height:1.7;margin:28px 0 0;max-width:640px;color:#a3a4a0;text-wrap:pretty">{{ t.aboutLiam }}</p>
+    <p style="font-family:'Instrument Serif',serif;font-style:italic;font-size:20px;line-height:1.5;margin:24px 0 0;max-width:600px;color:#FF5300;text-wrap:pretty">« {{ t.aboutLiamQuote }} »</p>
+  </div>
+</section>
+
+<section id="contact" style="background:#FF5300;color:#06070b;padding:120px 40px;position:relative;overflow:hidden">
+  <div style="position:absolute;top:18px;left:0;right:0;font-weight:900;font-size:120px;letter-spacing:-.04em;text-transform:uppercase;white-space:nowrap;color:transparent;-webkit-text-stroke:1.5px rgba(6,7,11,.22);pointer-events:none">{{ t.contactGhost }}</div>
+  <div style="max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1.1fr minmax(0,1fr);gap:80px;position:relative">
+    <div>
+      <h2 style="margin:0;font-size:clamp(44px,5.5vw,80px);font-weight:900;letter-spacing:-.04em;line-height:.95;text-transform:uppercase">{{ t.contactTitle }}</h2>
+      <p style="font-family:'Instrument Serif',serif;font-style:italic;font-size:24px;margin:30px 0 0;max-width:440px">{{ t.contactSub }}</p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div style="display:flex;gap:14px">
+        <input placeholder="{{ t.fName }}" style="flex:1;background:#e6e7e2;border:1px solid rgba(6,7,11,.35);border-radius:4px;padding:15px 16px;font:400 15px Inter;color:#06070b;min-width:0">
+        <input placeholder="Email" style="flex:1;background:#e6e7e2;border:1px solid rgba(6,7,11,.35);border-radius:4px;padding:15px 16px;font:400 15px Inter;color:#06070b;min-width:0">
+      </div>
+      <input placeholder="{{ t.fProject }}" style="background:#e6e7e2;border:1px solid rgba(6,7,11,.35);border-radius:4px;padding:15px 16px;font:400 15px Inter;color:#06070b">
+      <textarea placeholder="Message" rows="4" style="background:#e6e7e2;border:1px solid rgba(6,7,11,.35);border-radius:4px;padding:15px 16px;font:400 15px Inter;color:#06070b;resize:vertical"></textarea>
+      <button style="align-self:flex-start;background:#06070b;color:#e6e7e2;border:none;border-radius:999px;padding:16px 38px;font:700 13px Inter;letter-spacing:.1em;text-transform:uppercase;cursor:pointer" style-hover="color:#FF5300">{{ t.fSend }}</button>
+    </div>
+  </div>
+</section>
+
+<footer style="padding:70px 40px 40px;display:flex;flex-direction:column;gap:50px">
+  <img src="assets/logo-blanc.svg" alt="VOIZ" style="height:clamp(80px,14vw,180px);align-self:center;filter:brightness(0) invert(.98)">
+  <div style="display:flex;align-items:center;justify-content:space-between;border-top:1px solid #3F3F3F;padding-top:24px;font-size:13px;color:#a3a4a0">
+    <div style="display:flex;gap:24px"><a href="#">Instagram</a><a href="#">LinkedIn</a><a href="#">SoundCloud</a><a href="#">TikTok</a></div>
+    <div>© 2026 VOIZ · Vortex of Noise</div>
+  </div>
+</footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440}}">
+class Component extends DCLogic {
+  state = { lang: 'fr' };
+  videoRef = React.createRef();
+  componentDidMount() {
+    const v = this.videoRef.current;
+    if (v) { v.muted = true; v.defaultMuted = true; v.play().catch(() => {}); }
+  }
+  marqueeEl(bg, color) {
+    const words = ['Direction artistique', 'Sound design', 'Musique originale', 'Post-production', 'Mixage', 'Mastering'];
+    const seq = words.map(w => w + '\u2002◎\u2002').join('');
+    return React.createElement('div', { style: { background: bg, color, overflow: 'hidden', padding: '14px 0', whiteSpace: 'nowrap' } },
+      React.createElement('div', { style: { display: 'inline-block', animation: 'vz-marquee 28s linear infinite', fontWeight: 700, fontSize: 15, letterSpacing: '.22em', textTransform: 'uppercase' } }, seq + seq));
+  }
+  renderVals() {
+    const lang = this.state.lang;
+    const fr = {
+      mantra: 'Le son comme matière vivante.',
+      ctaContact: 'Nous contacter', ctaListen: 'Écouter',
+      pitchKicker: 'Le studio',
+      pitchA: 'Comme un vortex en mouvement,', pitchB: 'chaque son prend vie,', pitchC: 'porte une émotion et captive l\u2019attention. Chaque détail est travaillé pour faire résonner votre histoire.',
+      projTitle: 'Projets', projAll: 'Tous les projets',
+      proj1: 'Court-métrage · conception sonore & mixage intégral',
+      proj2: 'DA sonore & textures immersives',
+      proj3: 'Création sonore',
+      servTitle: 'Services',
+      quotesKicker: 'Ils nous font confiance',
+      quote1: 'Professionnel, réactif et force de proposition, VOIZ a grandement contribué à la qualité du film que j\u2019ai réalisé. Je les recommande vivement !',
+      quote2: 'Le travail de VOIZ allie émotion forte et subtilité technique.',
+      aboutKicker: 'À propos',
+      about: 'Une esthétique sonore moderne, organique, parfois abrasive, souvent cinématique. Des sons qui respirent, vibrent, se déforment et racontent.',
+      aboutLiam: 'Diplômé en ingénierie du son, Liam Grandsard a évolué plusieurs années dans l\u2019industrie musicale, en studio comme sur scène, en produisant et mixant des artistes rap, R&B et pop-rock. Depuis 2023, il se consacre au son à l\u2019image. Enfant, il réalisait déjà des courts-métrages avec le rêve de devenir réalisateur · il est finalement devenu réalisateur sonore. Du cloud rap au post-punk, de l\u2019électronique au sound design, une approche instinctive, immersive, toujours au service de l\u2019émotion.',
+      aboutLiamQuote: 'Faire ressentir, surprendre, émouvoir. Brut, émotif, hybride et vivant : voilà mon univers sonore.',
+      positioning: 'Nous accompagnons les créateurs d\u2019images et de mouvements, à donner une âme sonore à leurs projets.',
+      contactTitle: 'Construisons votre projet sonore dès aujourd\u2019hui', contactGhost: 'Contact · Contact · Contact', contactSub: 'Restons pro et clair : parlez-nous de votre image, de votre scène, de votre univers.',
+      fName: 'Nom', fProject: 'Type de projet (pub, ciné, spectacle…)', fSend: 'Envoyer',
+      services: [
+        { num: '01', name: 'Direction artistique sonore & accompagnement', desc: 'Définition de l\u2019univers sonore et de l\u2019identité audio, propositions créatives en lien avec l\u2019image, suivi artistique tout au long de la production.' },
+        { num: '02', name: 'Sound design & conception sonore', desc: 'Effets, textures, ambiances et éléments narratifs sur mesure. Sampling, transformation, saturation : une approche émotionnelle, immersive et cinématique.' },
+        { num: '03', name: 'Musique originale & composition', desc: 'Composition adaptée au rythme et à l\u2019intention du projet · de l\u2019urbain au rock, de l\u2019acoustique à l\u2019orchestral.' },
+        { num: '04', name: 'Studio & post-production audio', desc: 'Enregistrement voix et instruments, montage, mixage stéréo et immersif, mastering et livrables.' },
+        { num: '05', name: 'Musique · artistes', desc: 'DA sonore pour artistes, enregistrement, mixage, mastering, composition et arrangements.' },
+      ],
+    };
+    const en = {
+      mantra: 'Sound as living matter.',
+      ctaContact: 'Get in touch', ctaListen: 'Listen',
+      pitchKicker: 'The studio',
+      pitchA: 'Like a vortex in motion,', pitchB: 'every sound comes alive,', pitchC: 'carries an emotion and captures attention. Every detail is crafted to make your story resonate.',
+      projTitle: 'Projects', projAll: 'All projects',
+      proj1: 'Short film · full sound design & mix',
+      proj2: 'Sonic art direction & immersive textures',
+      proj3: 'Sound creation',
+      servTitle: 'Services',
+      quotesKicker: 'They trust us',
+      quote1: 'Professional, responsive and full of ideas, VOIZ greatly contributed to the quality of the film I directed. I highly recommend them!',
+      quote2: 'VOIZ\u2019s work combines strong emotion with technical subtlety.',
+      aboutKicker: 'About',
+      about: 'A modern, organic sonic aesthetic · sometimes abrasive, often cinematic. Sounds that breathe, vibrate, distort and tell stories.',
+      aboutLiam: 'A sound engineering graduate, Liam Grandsard spent years in the music industry, in the studio and on stage, producing and mixing rap, R&B and pop-rock artists. Since 2023 he has devoted himself to sound for picture. As a child he was already making short films, dreaming of becoming a director · he ended up a sound director. From cloud rap to post-punk, electronics to sound design: an instinctive, immersive approach, always in service of emotion.',
+      aboutLiamQuote: 'Make people feel, surprise, move. Raw, emotive, hybrid and alive: that is my sonic universe.',
+      positioning: 'We help creators of images and motion give their projects a sonic soul.',
+      contactTitle: 'Let\u2019s build your sound project today', contactGhost: 'Contact · Contact · Contact', contactSub: 'Clear and professional: tell us about your film, your stage, your universe.',
+      fName: 'Name', fProject: 'Project type (ad, film, live…)', fSend: 'Send',
+      services: [
+        { num: '01', name: 'Sonic art direction & guidance', desc: 'Defining the sonic universe and audio identity, creative proposals tied to the image, artistic supervision throughout production.' },
+        { num: '02', name: 'Sound design & sonic conception', desc: 'Bespoke effects, textures, atmospheres and narrative elements. Sampling, transformation, saturation: an emotional, immersive, cinematic approach.' },
+        { num: '03', name: 'Original music & composition', desc: 'Composition tuned to the project\u2019s rhythm and intent · from urban to rock, acoustic to orchestral.' },
+        { num: '04', name: 'Studio & audio post-production', desc: 'Voice and instrument recording, editing, stereo and immersive mixing, mastering and deliverables.' },
+        { num: '05', name: 'Music · artists', desc: 'Sonic art direction for artists, recording, mixing, mastering, composition and arrangements.' },
+      ],
+    };
+    const t = lang === 'fr' ? fr : en;
+    const eq = React.createElement('span', { style: { display: 'inline-flex', gap: 3, alignItems: 'center', height: 16 } },
+      [0, 1, 2, 3].map(i => React.createElement('span', { key: i, style: { width: 3, height: 16, background: '#FF5300', transformOrigin: 'center', animation: `vz-eq ${.7 + i * .18}s ease-in-out ${i * .1}s infinite` } })));
+    const orbitText = React.createElement('svg', { viewBox: '0 0 200 200', style: { width: '100%', height: '100%', animation: 'vz-spin 24s linear infinite' } },
+      React.createElement('defs', null, React.createElement('path', { id: 'vz-circ', d: 'M100,100 m-88,0 a88,88 0 1,1 176,0 a88,88 0 1,1 -176,0' })),
+      React.createElement('text', { style: { fontSize: 12.5, letterSpacing: '.32em', textTransform: 'uppercase', fontWeight: 700, fill: '#FF5300', fontFamily: 'Inter' } },
+        React.createElement('textPath', { href: '#vz-circ' }, lang === 'fr' ? 'Fondateur · Vortex of Noise · Fondateur · Vortex of Noise —' : 'Founder · Vortex of Noise · Founder · Vortex of Noise —')));
+    const vortexBadge = React.createElement('div', { style: { width: 74, height: 74, borderRadius: '50%', background: '#FF5300', display: 'flex', alignItems: 'center', justifyContent: 'center', animation: 'vz-spin 14s linear infinite' } },
+      React.createElement('span', { style: { color: '#06070b', fontSize: 26, fontWeight: 900 } }, '◎'));
+    const bgGlow = React.createElement('div', { style: { position: 'fixed', inset: 0, pointerEvents: 'none', overflow: 'hidden' } },
+      React.createElement('div', { style: { position: 'absolute', top: '10%', left: '-15%', width: '55vw', height: '55vw', borderRadius: '50%', background: 'radial-gradient(circle,rgba(255,83,0,.09) 0%,transparent 65%)', animation: 'vz-glow 18s ease-in-out infinite' } }),
+      React.createElement('div', { style: { position: 'absolute', bottom: '-10%', right: '-12%', width: '60vw', height: '60vw', borderRadius: '50%', background: 'radial-gradient(circle,rgba(255,83,0,.07) 0%,transparent 65%)', animation: 'vz-glow2 24s ease-in-out infinite' } }));
+    const eqQuote = React.createElement('span', { style: { display: 'inline-flex', gap: 3, alignItems: 'center', height: 14, flex: 'none' } },
+      [0, 1, 2, 3, 4].map(i => React.createElement('span', { key: i, style: { width: 3, height: 14, background: '#FF5300', transformOrigin: 'center', animation: `vz-eq ${.6 + i * .15}s ease-in-out ${i * .12}s infinite` } })));
+    return {
+      t, services: t.services, videoRef: this.videoRef, eq, eqQuote, orbitText, vortexBadge, bgGlow,
+      marquee: this.marqueeEl('#FF5300', '#06070b'),
+      marqueeIvory: this.marqueeEl('#e6e7e2', '#06070b'),
+      langLabel: lang === 'fr' ? 'FR → EN' : 'EN → FR',
+      toggleLang: () => this.setState(s => ({ lang: s.lang === 'fr' ? 'en' : 'fr' })),
+    };
+  }
+}
+</script>
+</body>
+</html>

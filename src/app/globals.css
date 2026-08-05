@@ -1,0 +1,204 @@
+@import 'tailwindcss';
+
+/* ---------------------------------------------------------------------------
+   Design tokens — VOIZ brand guide. These four colours are exhaustive.
+   --------------------------------------------------------------------------- */
+@theme {
+  --color-noir: #06070b;
+  --color-orange: #ff5300;
+  --color-ivoire: #e6e7e2;
+  --color-anthracite: #3f3f3f;
+  --color-muted: #a3a4a0;
+  --color-card: #0b0c11;
+
+  --font-sans: var(--font-inter), Inter, system-ui, sans-serif;
+  --font-serif: var(--font-instrument), 'Instrument Serif', serif;
+
+  --radius-tile: 6px;
+
+  --animate-marquee: vz-marquee 28s linear infinite;
+  --animate-spin-slow: vz-spin 14s linear infinite;
+  --animate-orbit: vz-spin 24s linear infinite;
+
+  @keyframes vz-marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+  @keyframes vz-eq {
+    0%,
+    100% {
+      transform: scaleY(0.25);
+    }
+    50% {
+      transform: scaleY(1);
+    }
+  }
+  @keyframes vz-spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  @keyframes vz-glow {
+    0%,
+    100% {
+      transform: translate(0, 0) scale(1);
+    }
+    33% {
+      transform: translate(4vw, 6vh) scale(1.15);
+    }
+    66% {
+      transform: translate(-5vw, -4vh) scale(0.92);
+    }
+  }
+  @keyframes vz-glow2 {
+    0%,
+    100% {
+      transform: translate(0, 0) scale(1);
+    }
+    40% {
+      transform: translate(-6vw, 5vh) scale(1.2);
+    }
+    75% {
+      transform: translate(5vw, -6vh) scale(0.9);
+    }
+  }
+  @keyframes vz-fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Base
+   --------------------------------------------------------------------------- */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    /* Fixed nav is 80px tall; keep anchor targets clear of it. */
+    scroll-padding-top: 90px;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    margin: 0;
+    background: var(--color-noir);
+    color: var(--color-ivoire);
+    font-family: var(--font-sans);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  ::selection {
+    background: var(--color-orange);
+    color: var(--color-noir);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-orange);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  /* Inputs inherit the page font rather than the UA default. */
+  input,
+  textarea,
+  select,
+  button {
+    font: inherit;
+    color: inherit;
+  }
+}
+
+@layer utilities {
+  .vz-stroke-ivoire {
+    color: transparent;
+    -webkit-text-stroke: 1.2px var(--color-ivoire);
+  }
+  .vz-stroke-orange {
+    color: transparent;
+    -webkit-text-stroke: 1.2px var(--color-orange);
+  }
+  .vz-stroke-noir {
+    color: transparent;
+    -webkit-text-stroke: 1.2px var(--color-noir);
+  }
+  /* Dashed waveform strip, eased at both ends by an elliptical mask. */
+  .vz-waveform {
+    -webkit-mask-image: radial-gradient(ellipse 100% 260% at 50% 50%, #000 40%, transparent 41%);
+    mask-image: radial-gradient(ellipse 100% 260% at 50% 50%, #000 40%, transparent 41%);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Projects mosaic
+   The design is a 6-column / 128px-row dense mosaic at desktop. Below 900px it
+   collapses to 2 columns so tiles stay legible. Spans come from the project
+   data as --cs / --rs (desktop) and --cs-sm / --rs-sm (mobile).
+   --------------------------------------------------------------------------- */
+.vz-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-auto-rows: 104px;
+  grid-auto-flow: dense;
+  gap: 14px;
+}
+
+.vz-tile {
+  grid-column: span var(--cs-sm);
+  grid-row: span var(--rs-sm);
+}
+
+@media (min-width: 900px) {
+  .vz-grid {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    grid-auto-rows: 128px;
+    gap: 20px;
+  }
+
+  .vz-tile {
+    grid-column: span var(--cs);
+    grid-row: span var(--rs);
+  }
+
+  /* Filtered views can't tile the bespoke mosaic without holes, so every tile
+     falls back to a uniform 2x2 cell. */
+  .vz-grid[data-filtered='true'] .vz-tile {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Motion preferences
+   --------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
