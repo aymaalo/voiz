@@ -87,7 +87,7 @@ export default async function ProjectsPage({
         <Contact t={t} locale={locale} />
       </main>
 
-      <Footer t={t} />
+      <Footer t={t} anchorBase={homePath(locale)} />
     </>
   );
 }

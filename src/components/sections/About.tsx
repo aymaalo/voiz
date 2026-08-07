@@ -7,29 +7,30 @@ export function About({ t }: { t: Dictionary }) {
       id="about"
       className="mx-auto grid max-w-[1280px] grid-cols-1 items-center gap-12 px-5 pt-[90px] pb-[110px] md:grid-cols-[auto_minmax(0,1fr)] md:gap-[90px] md:px-10 md:pt-[110px] md:pb-[150px]"
     >
-      <div className="relative h-[220px] w-[220px] justify-self-center md:h-[260px] md:w-[260px]">
+      <div
+        data-reveal="zoom"
+        className="relative h-[220px] w-[220px] justify-self-center md:h-[260px] md:w-[260px]"
+      >
         <ImageSlot
           shape="circle"
           alt={t.portraitAlt}
           placeholder={t.aboutKicker}
           sizes="260px"
         />
+        {/* Sound ripples radiating from the portrait. Negative delays keep the
+            three rings evenly spaced from the very first frame. */}
         <div aria-hidden="true" className="pointer-events-none absolute inset-[-30px]">
-          <svg viewBox="0 0 200 200" className="h-full w-full animate-[vz-spin_24s_linear_infinite]">
-            <defs>
-              <path
-                id="vz-orbit"
-                d="M100,100 m-88,0 a88,88 0 1,1 176,0 a88,88 0 1,1 -176,0"
-              />
-            </defs>
-            <text className="fill-orange text-[12.5px] font-bold tracking-[.32em] uppercase">
-              <textPath href="#vz-orbit">{t.aboutOrbit}</textPath>
-            </text>
-          </svg>
+          {[0, 1, 2].map((i) => (
+            <div
+              key={i}
+              className="absolute inset-0 rounded-full border border-orange/50"
+              style={{ animation: `vz-ripple 3.9s ease-out ${i * -1.3}s infinite` }}
+            />
+          ))}
         </div>
       </div>
 
-      <div>
+      <div data-reveal="" style={{ '--reveal-delay': '140ms' } as React.CSSProperties}>
         <div className="mb-6 text-[12px] font-bold tracking-[.4em] text-orange uppercase">
           {t.aboutKicker} · 04
         </div>

@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import { Inter, Instrument_Serif } from 'next/font/google';
 import { notFound } from 'next/navigation';
 import { FilmGrain, LivingBackground } from '@/components/ui/BackgroundFX';
+import { ScrollReveal } from '@/components/ui/ScrollReveal';
 import { getDictionary, isLocale, LOCALES, type Locale } from '@/content/i18n';
 import { getSiteUrl } from '@/content/site';
 import '../globals.css';
@@ -76,8 +77,16 @@ export default async function LocaleLayout({
   const t = getDictionary(locale);
 
   return (
-    <html lang={locale} className={`${inter.variable} ${instrumentSerif.variable}`}>
+    <html
+      lang={locale}
+      className={`${inter.variable} ${instrumentSerif.variable}`}
+      // Tells Next the CSS smooth-scrolling is intentional so it can suspend it
+      // during route transitions; without this, the post-navigation scroll
+      // resets animate and race, gliding the new page down to the footer.
+      data-scroll-behavior="smooth"
+    >
       <body className="relative min-h-screen bg-noir">
+        <ScrollReveal />
         <a
           href="#top"
           className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-70 focus:rounded-full focus:bg-orange focus:px-5 focus:py-3 focus:text-[13px] focus:font-bold focus:text-noir focus:uppercase"

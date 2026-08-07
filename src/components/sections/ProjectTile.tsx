@@ -9,30 +9,41 @@ type TileProps = {
   t: Dictionary;
   /** Only the first tile is worth preloading. */
   priority?: boolean;
+  /** Stagger for the scroll-reveal entrance, in ms. */
+  revealDelay?: number;
 };
 
-function spanVars(project: Project): React.CSSProperties {
+function spanVars(project: Project, revealDelay = 0): React.CSSProperties {
   const { cs, rs, csSm, rsSm } = project.span;
   return {
     '--cs': cs,
     '--rs': rs,
     '--cs-sm': csSm,
     '--rs-sm': rsSm,
+    '--reveal-delay': `${revealDelay}ms`,
   } as React.CSSProperties;
 }
 
-function VideoTile({ project, locale, t, priority }: TileProps & { project: VideoProject }) {
+function VideoTile({
+  project,
+  locale,
+  t,
+  priority,
+  revealDelay,
+}: TileProps & { project: VideoProject }) {
   const big = project.span.cs >= 4;
 
   const body = (
     <>
-      <ImageSlot
-        src={project.image}
-        alt={project.title[locale]}
-        placeholder={project.placeholder[locale]}
-        priority={priority}
-        sizes={big ? '(max-width: 900px) 100vw, 860px' : '(max-width: 900px) 100vw, 420px'}
-      />
+      <div className="h-full w-full transition-transform duration-500 ease-out group-hover:scale-[1.06]">
+        <ImageSlot
+          src={project.image}
+          alt={project.title[locale]}
+          placeholder={project.placeholder[locale]}
+          priority={priority}
+          sizes={big ? '(max-width: 900px) 100vw, 860px' : '(max-width: 900px) 100vw, 420px'}
+        />
+      </div>
       <span
         aria-hidden="true"
         className="vz-stroke-ivoire pointer-events-none absolute top-[14px] left-[18px] font-serif text-[34px] leading-none italic md:text-[44px]"
@@ -50,7 +61,7 @@ function VideoTile({ project, locale, t, priority }: TileProps & { project: Vide
         </div>
         <div
           aria-hidden="true"
-          className={`flex flex-none items-center justify-center rounded-full bg-orange text-noir ${
+          className={`flex flex-none items-center justify-center rounded-full bg-orange text-noir transition-transform duration-300 group-hover:scale-110 ${
             big ? 'h-[46px] w-[46px] text-[16px]' : 'h-10 w-10 text-[14px]'
           }`}
         >
@@ -69,8 +80,9 @@ function VideoTile({ project, locale, t, priority }: TileProps & { project: Vide
         href={project.href}
         target="_blank"
         rel="noopener noreferrer"
+        data-reveal="zoom"
         className={className}
-        style={spanVars(project)}
+        style={spanVars(project, revealDelay)}
         aria-label={`${project.kicker[locale]} · ${project.title[locale]} — ${t.play}`}
       >
         {body}
@@ -79,21 +91,24 @@ function VideoTile({ project, locale, t, priority }: TileProps & { project: Vide
   }
 
   return (
-    <article className={className} style={spanVars(project)}>
+    <article data-reveal="zoom" className={className} style={spanVars(project, revealDelay)}>
       {body}
     </article>
   );
 }
 
-function AudioTile({ project, locale, t }: TileProps & { project: AudioProject }) {
+function AudioTile({ project, locale, t, revealDelay }: TileProps & { project: AudioProject }) {
   const isOrange = project.variant === 'orange';
 
   return (
     <article
+      data-reveal="zoom"
       className={`vz-tile flex flex-col justify-between rounded-[6px] p-5 transition-[transform,border-color] duration-300 [transform:rotate(var(--tilt))] hover:[transform:rotate(0deg)] md:p-6 ${
         isOrange ? 'bg-orange text-noir' : 'border border-anthracite bg-card hover:border-orange'
       }`}
-      style={{ ...spanVars(project), '--tilt': `${project.tilt}deg` } as React.CSSProperties}
+      style={
+        { ...spanVars(project, revealDelay), '--tilt': `${project.tilt}deg` } as React.CSSProperties
+      }
     >
       <div className="flex items-baseline justify-between">
         <span

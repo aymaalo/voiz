@@ -30,7 +30,7 @@ export function Projects({ locale, t, variant = 'home' }: ProjectsProps) {
       }`}
     >
       {variant === 'home' ? (
-        <div className="mb-10 flex items-baseline gap-4 md:mb-[60px] md:gap-6">
+        <div data-reveal="" className="mb-10 flex items-baseline gap-4 md:mb-[60px] md:gap-6">
           <h2 className="m-0 text-[clamp(52px,7vw,110px)] leading-none font-black tracking-[-.04em] uppercase">
             {t.projTitle}
           </h2>
@@ -43,6 +43,7 @@ export function Projects({ locale, t, variant = 'home' }: ProjectsProps) {
       <div
         role="group"
         aria-label={t.filterAria}
+        data-reveal=""
         className="mb-8 flex flex-wrap gap-[10px] md:mb-10"
       >
         {t.filters.map((f) => {
@@ -53,7 +54,7 @@ export function Projects({ locale, t, variant = 'home' }: ProjectsProps) {
               type="button"
               onClick={() => setFilter(f.id)}
               aria-pressed={active}
-              className={`cursor-pointer rounded-full px-[18px] py-2 text-[12px] tracking-[.12em] uppercase transition-colors ${
+              className={`cursor-pointer rounded-full px-[18px] py-2 text-[12px] tracking-[.12em] uppercase transition hover:-translate-y-[2px] active:scale-95 ${
                 active
                   ? 'bg-orange font-bold text-noir'
                   : 'border border-anthracite font-semibold hover:border-orange hover:text-orange'
@@ -68,7 +69,14 @@ export function Projects({ locale, t, variant = 'home' }: ProjectsProps) {
       {visible.length > 0 ? (
         <div className="vz-grid" data-filtered={filter !== 'tous'}>
           {visible.map((p, i) => (
-            <ProjectTile key={p.id} project={p} locale={locale} t={t} priority={i === 0} />
+            <ProjectTile
+              key={p.id}
+              project={p}
+              locale={locale}
+              t={t}
+              priority={i === 0}
+              revealDelay={(i % 4) * 80}
+            />
           ))}
         </div>
       ) : (
@@ -76,12 +84,15 @@ export function Projects({ locale, t, variant = 'home' }: ProjectsProps) {
       )}
 
       {variant === 'home' ? (
-        <div className="mt-[50px] flex justify-center md:mt-[70px]">
+        <div data-reveal="" className="mt-[50px] flex justify-center md:mt-[70px]">
           <Link
             href={projectsPath(locale)}
-            className="border-b border-orange font-serif text-[24px] text-orange italic md:text-[30px]"
+            className="group border-b border-orange font-serif text-[24px] text-orange italic transition-colors hover:text-ivoire md:text-[30px]"
           >
-            {t.projAll} →
+            {t.projAll}{' '}
+            <span className="inline-block transition-transform duration-300 group-hover:translate-x-2">
+              →
+            </span>
           </Link>
         </div>
       ) : null}

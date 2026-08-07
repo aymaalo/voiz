@@ -45,7 +45,7 @@ export function Nav({ locale, t, switchHref, anchorBase = '' }: NavProps) {
       <nav
         // mix-blend-difference keeps the nav legible over both the video and the
         // orange contact section without any backdrop of its own.
-        className="fixed inset-x-0 top-0 z-50 flex items-center justify-between px-5 py-[18px] mix-blend-difference md:px-10 md:py-[22px]"
+        className="fixed inset-x-0 top-0 z-50 flex animate-[vz-nav-in_.7s_ease-out_.15s_both] items-center justify-between px-5 py-[18px] mix-blend-difference md:px-10 md:py-[22px]"
       >
         <Link href={`/${locale}`} aria-label="VOIZ" className="flex-none">
           <Logo className="h-8 w-auto text-ivoire md:h-9" />
@@ -57,7 +57,7 @@ export function Nav({ locale, t, switchHref, anchorBase = '' }: NavProps) {
               key={l.href}
               href={l.href}
               className={`transition-colors hover:text-orange ${
-                l.accent ? 'border-b-2 border-orange pb-[2px]' : ''
+                l.accent ? 'border-b-2 border-orange pb-[2px]' : 'vz-link'
               }`}
             >
               {l.label}
@@ -67,7 +67,7 @@ export function Nav({ locale, t, switchHref, anchorBase = '' }: NavProps) {
             href={switchHref}
             hrefLang={other}
             aria-label={t.langSwitchAria}
-            className="rounded-full border border-ivoire/40 px-[13px] py-[6px] text-[11px] font-semibold tracking-[.12em] transition-colors hover:border-orange hover:text-orange"
+            className="rounded-full border border-ivoire/40 px-[13px] py-[6px] text-[11px] font-semibold tracking-[.12em] transition hover:scale-105 hover:border-orange hover:text-orange active:scale-95"
           >
             {t.langLabel}
           </Link>
@@ -98,14 +98,14 @@ export function Nav({ locale, t, switchHref, anchorBase = '' }: NavProps) {
       <div
         id="vz-mobile-menu"
         hidden={!open}
-        className="fixed inset-0 z-40 flex flex-col justify-center gap-2 bg-noir px-8 md:hidden"
+        className="fixed inset-0 z-40 flex animate-[vz-fade-in_.35s_ease_both] flex-col justify-center gap-2 bg-noir px-8 md:hidden"
       >
         {links.map((l) => (
           <a
             key={l.href}
             href={l.href}
             onClick={() => setOpen(false)}
-            className="border-b border-anthracite py-5 text-[26px] font-bold tracking-[-.02em] uppercase"
+            className="border-b border-anthracite py-5 text-[26px] font-bold tracking-[-.02em] uppercase transition-[padding-left,color] duration-300 hover:pl-3 hover:text-orange"
           >
             {l.label}
           </a>

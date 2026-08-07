@@ -79,7 +79,6 @@ export type Dictionary = {
   about: string;
   aboutLiam: string;
   aboutLiamQuote: string;
-  aboutOrbit: string;
   portraitAlt: string;
 
   /* contact */
@@ -100,6 +99,10 @@ export type Dictionary = {
 
   /* footer */
   footerRights: string;
+  footerNav: string;
+  footerSocial: string;
+  footerContact: string;
+  footerTop: string;
 };
 
 const fr: Dictionary = {
@@ -208,7 +211,6 @@ const fr: Dictionary = {
     'Diplômé en ingénierie du son, Liam Grandsard a évolué plusieurs années dans l’industrie musicale, en studio comme sur scène, en produisant et mixant des artistes rap, R&B et pop-rock. Depuis 2023, il se consacre au son à l’image. Enfant, il réalisait déjà des courts-métrages avec le rêve de devenir réalisateur · il est finalement devenu réalisateur sonore. Du cloud rap au post-punk, de l’électronique au sound design, une approche instinctive, immersive, toujours au service de l’émotion.',
   aboutLiamQuote:
     'Faire ressentir, surprendre, émouvoir. Brut, émotif, hybride et vivant : voilà mon univers sonore.',
-  aboutOrbit: 'Fondateur · Vortex of Noise · Fondateur · Vortex of Noise —',
   portraitAlt: 'Portrait de Liam Grandsard, fondateur de VOIZ',
 
   contactTitle: 'Construisons votre projet sonore dès aujourd’hui',
@@ -236,6 +238,10 @@ const fr: Dictionary = {
   fInvalidEmail: 'Adresse email invalide.',
 
   footerRights: '© 2026 VOIZ · Vortex of Noise',
+  footerNav: 'Menu',
+  footerSocial: 'Réseaux',
+  footerContact: 'Contact',
+  footerTop: 'Retour en haut',
 };
 
 const en: Dictionary = {
@@ -343,7 +349,6 @@ const en: Dictionary = {
     'A sound engineering graduate, Liam Grandsard spent years in the music industry, in the studio and on stage, producing and mixing rap, R&B and pop-rock artists. Since 2023 he has devoted himself to sound for picture. As a child he was already making short films, dreaming of becoming a director · he ended up a sound director. From cloud rap to post-punk, electronics to sound design: an instinctive, immersive approach, always in service of emotion.',
   aboutLiamQuote:
     'Make people feel, surprise, move. Raw, emotive, hybrid and alive: that is my sonic universe.',
-  aboutOrbit: 'Founder · Vortex of Noise · Founder · Vortex of Noise —',
   portraitAlt: 'Portrait of Liam Grandsard, founder of VOIZ',
 
   contactTitle: 'Let’s build your sound project today',
@@ -370,6 +375,10 @@ const en: Dictionary = {
   fInvalidEmail: 'Invalid email address.',
 
   footerRights: '© 2026 VOIZ · Vortex of Noise',
+  footerNav: 'Menu',
+  footerSocial: 'Social',
+  footerContact: 'Contact',
+  footerTop: 'Back to top',
 };
 
 const dictionaries: Record<Locale, Dictionary> = { fr, en };

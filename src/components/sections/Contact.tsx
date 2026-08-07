@@ -51,7 +51,7 @@ export function Contact({ t, locale }: { t: Dictionary; locale: Locale }) {
       </div>
 
       <div className="relative mx-auto grid max-w-[1280px] grid-cols-1 gap-12 md:grid-cols-[1.1fr_minmax(0,1fr)] md:gap-20">
-        <div>
+        <div data-reveal="left">
           <h2 className="m-0 text-[clamp(38px,9vw,80px)] leading-[.95] font-black tracking-[-.04em] uppercase md:text-[clamp(44px,5.5vw,80px)]">
             {t.contactTitle}
           </h2>
@@ -61,14 +61,20 @@ export function Contact({ t, locale }: { t: Dictionary; locale: Locale }) {
           {site.email ? (
             <a
               href={`mailto:${site.email}`}
-              className="mt-8 inline-block border-b border-noir/40 text-[14px] font-semibold tracking-[.1em] uppercase transition-colors hover:border-noir"
+              className="mt-8 inline-block border-b border-noir/40 text-[14px] font-semibold tracking-[.1em] uppercase transition hover:-translate-y-[2px] hover:border-noir"
             >
               {site.email}
             </a>
           ) : null}
         </div>
 
-        <form onSubmit={onSubmit} noValidate className="flex flex-col gap-[14px]">
+        <form
+          onSubmit={onSubmit}
+          noValidate
+          data-reveal="right"
+          style={{ '--reveal-delay': '140ms' } as React.CSSProperties}
+          className="flex flex-col gap-[14px]"
+        >
           {/* Honeypot — bots fill it, humans never see it. */}
           <input
             type="text"
@@ -145,7 +151,7 @@ export function Contact({ t, locale }: { t: Dictionary; locale: Locale }) {
           <button
             type="submit"
             disabled={status === 'sending'}
-            className="self-start rounded-full bg-noir px-9 py-4 text-[13px] font-bold tracking-[.1em] text-ivoire uppercase transition-colors hover:text-orange disabled:opacity-60"
+            className="self-start rounded-full bg-noir px-9 py-4 text-[13px] font-bold tracking-[.1em] text-ivoire uppercase transition hover:scale-[1.04] hover:text-orange active:scale-[.97] disabled:opacity-60"
           >
             {status === 'sending' ? t.fSending : t.fSend}
           </button>

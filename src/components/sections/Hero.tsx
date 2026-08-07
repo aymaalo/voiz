@@ -32,7 +32,7 @@ export function Hero({ t }: { t: Dictionary }) {
         preload="auto"
         aria-hidden="true"
         tabIndex={-1}
-        className="absolute inset-0 h-full w-full object-cover opacity-90"
+        className="absolute inset-0 h-full w-full animate-[vz-hero-in_1.8s_ease-out_both] object-cover opacity-90"
       />
 
       <div
@@ -47,26 +47,35 @@ export function Hero({ t }: { t: Dictionary }) {
       />
 
       <div className="absolute right-5 bottom-[92px] left-5 flex flex-col items-start justify-between gap-8 md:right-10 md:bottom-[110px] md:left-10 md:flex-row md:items-end md:gap-10">
-        <div>
+        <div data-reveal="">
           <h1 className="m-0 text-[clamp(34px,9vw,58px)] leading-[.9] font-black tracking-[-.03em] uppercase md:text-[clamp(34px,4vw,58px)]">
-            Vortex <span className="vz-stroke-ivoire [-webkit-text-stroke-width:1.5px]">of</span>{' '}
-            <span className="text-orange">Noise</span>
+            {/* One serif-orange counterpoint, like the section headings — not a
+                style per word. */}
+            Vortex{' '}
+            <span className="font-serif text-[.92em] font-normal text-orange normal-case italic">
+              of
+            </span>{' '}
+            Noise
           </h1>
           <p className="mt-[14px] mb-0 font-serif text-[clamp(16px,1.4vw,20px)] text-ivoire/80 italic">
             {t.mantra}
           </p>
         </div>
 
-        <div className="flex flex-none flex-wrap items-center gap-[14px]">
+        <div
+          data-reveal=""
+          style={{ '--reveal-delay': '180ms' } as React.CSSProperties}
+          className="flex flex-none flex-wrap items-center gap-[14px]"
+        >
           <a
             href="#contact"
-            className="rounded-full bg-orange px-8 py-4 text-[13px] font-bold tracking-[.1em] text-noir uppercase transition-colors hover:bg-ivoire md:px-[34px]"
+            className="rounded-full bg-orange px-8 py-4 text-[13px] font-bold tracking-[.1em] text-noir uppercase transition hover:scale-[1.05] hover:bg-ivoire active:scale-[.97] md:px-[34px]"
           >
             {t.ctaContact}
           </a>
           <a
             href="#projets"
-            className="flex items-center gap-3 rounded-full border border-ivoire/40 px-6 py-[14px] text-[13px] font-semibold tracking-[.1em] uppercase transition-colors hover:border-orange md:px-7"
+            className="flex items-center gap-3 rounded-full border border-ivoire/40 px-6 py-[14px] text-[13px] font-semibold tracking-[.1em] uppercase transition hover:scale-[1.05] hover:border-orange hover:text-orange active:scale-[.97] md:px-7"
           >
             <Equalizer />
             {t.ctaListen}

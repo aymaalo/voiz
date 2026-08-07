@@ -9,11 +9,18 @@ export function Studio({ t }: { t: Dictionary }) {
       </div>
 
       <div className="grid grid-cols-1 items-end gap-12 md:grid-cols-[minmax(0,1fr)_380px] md:gap-20 lg:pl-[90px]">
-        <p className="m-0 text-[clamp(26px,6vw,46px)] leading-[1.22] font-normal tracking-[-.01em] text-pretty md:text-[clamp(30px,3.4vw,46px)]">
+        <p
+          data-reveal=""
+          className="m-0 text-[clamp(26px,6vw,46px)] leading-[1.22] font-normal tracking-[-.01em] text-pretty md:text-[clamp(30px,3.4vw,46px)]"
+        >
           {t.pitchA} <span className="font-serif text-orange italic">{t.pitchB}</span> {t.pitchC}
         </p>
 
-        <div className="relative">
+        <div
+          data-reveal="right"
+          style={{ '--reveal-delay': '150ms' } as React.CSSProperties}
+          className="relative"
+        >
           <div className="h-[240px] rotate-2 md:h-[300px]">
             <ImageSlot
               shape="rounded"
@@ -22,7 +29,7 @@ export function Studio({ t }: { t: Dictionary }) {
               sizes="(max-width: 900px) 100vw, 380px"
             />
           </div>
-          <div className="absolute top-[-22px] left-[-22px]">
+          <div className="absolute top-[-22px] left-[-22px] transition-transform duration-300 hover:scale-110">
             <div className="flex h-[74px] w-[74px] animate-[vz-spin_14s_linear_infinite] items-center justify-center rounded-full bg-orange">
               <span aria-hidden="true" className="text-[26px] font-black text-noir">
                 ◎

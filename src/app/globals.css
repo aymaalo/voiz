@@ -28,45 +28,12 @@
       transform: translateX(-50%);
     }
   }
-  @keyframes vz-eq {
-    0%,
-    100% {
-      transform: scaleY(0.25);
-    }
-    50% {
-      transform: scaleY(1);
-    }
-  }
   @keyframes vz-spin {
     from {
       transform: rotate(0deg);
     }
     to {
       transform: rotate(360deg);
-    }
-  }
-  @keyframes vz-glow {
-    0%,
-    100% {
-      transform: translate(0, 0) scale(1);
-    }
-    33% {
-      transform: translate(4vw, 6vh) scale(1.15);
-    }
-    66% {
-      transform: translate(-5vw, -4vh) scale(0.92);
-    }
-  }
-  @keyframes vz-glow2 {
-    0%,
-    100% {
-      transform: translate(0, 0) scale(1);
-    }
-    40% {
-      transform: translate(-6vw, 5vh) scale(1.2);
-    }
-    75% {
-      transform: translate(5vw, -6vh) scale(0.9);
     }
   }
   @keyframes vz-fade-in {
@@ -78,6 +45,160 @@
       opacity: 1;
       transform: none;
     }
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Keyframes referenced from inline `style` attributes. These must live at the
+   top level: inside @theme, Tailwind only emits keyframes it sees used in a
+   class, so inline-only ones would be silently dropped from the build.
+   --------------------------------------------------------------------------- */
+@keyframes vz-eq {
+  0%,
+  100% {
+    transform: scaleY(0.25);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+
+/* Counter-rotating gradient fields. Rotation is seamless (0 -> 360), so the
+   loop never snaps; the scale offsets keep the two layers from ever lining
+   up, which is what makes the blend look like it is breathing. */
+@keyframes vz-drift-a {
+  0%,
+  100% {
+    transform: rotate(0deg) scale(1);
+  }
+  50% {
+    transform: rotate(180deg) translate3d(5%, -4%, 0) scale(1.25);
+  }
+}
+
+@keyframes vz-drift-b {
+  0%,
+  100% {
+    transform: rotate(360deg) scale(1.12);
+  }
+  50% {
+    transform: rotate(180deg) translate3d(-6%, 5%, 0) scale(0.88);
+  }
+}
+
+@keyframes vz-breathe {
+  0%,
+  100% {
+    opacity: 0.45;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes vz-glow {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(9vw, 10vh) scale(1.25);
+  }
+  66% {
+    transform: translate(-10vw, -7vh) scale(0.85);
+  }
+}
+
+@keyframes vz-glow2 {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  40% {
+    transform: translate(-11vw, 9vh) scale(1.3);
+  }
+  75% {
+    transform: translate(9vw, -10vh) scale(0.85);
+  }
+}
+
+/* Sound ripples radiating from the About portrait. Rings spawn just outside
+   the photo, swell past the frame, and dissolve. */
+@keyframes vz-ripple {
+  0% {
+    scale: 0.78;
+    opacity: 0;
+  }
+  12% {
+    opacity: 0.75;
+  }
+  100% {
+    scale: 1.18;
+    opacity: 0;
+  }
+}
+
+/* Page-load entrances (referenced from Tailwind arbitrary animate classes). */
+@keyframes vz-hero-in {
+  from {
+    opacity: 0;
+    scale: 1.08;
+  }
+  to {
+    opacity: 0.9;
+    scale: 1;
+  }
+}
+
+@keyframes vz-nav-in {
+  from {
+    opacity: 0;
+    translate: 0 -14px;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Scroll reveal
+   Elements tagged data-reveal start hidden; ScrollReveal marks them
+   data-shown as they enter the viewport and unmarks them once they have fully
+   left, so they replay on the way back. Uses the standalone translate/scale
+   properties so it composes with tiles' own transform styles. The whole block
+   sits behind @media (scripting: enabled) so content is never hidden for
+   no-JS visitors, crawlers, or browsers too old for the query.
+   --------------------------------------------------------------------------- */
+/* An animation rather than a transition: it starts from the element's current
+   hidden state (no `from` frame) and never touches transition-*, so elements
+   keep their own hover transitions. Losing data-shown snaps back to hidden,
+   which only ever happens fully off-screen. */
+@keyframes vz-reveal {
+  to {
+    opacity: 1;
+    translate: 0 0;
+    scale: 1;
+  }
+}
+
+@media (scripting: enabled) {
+  [data-reveal] {
+    opacity: 0;
+    translate: 0 30px;
+  }
+  [data-reveal='left'] {
+    translate: -38px 0;
+  }
+  [data-reveal='right'] {
+    translate: 38px 0;
+  }
+  [data-reveal='zoom'] {
+    translate: 0 18px;
+    scale: 0.94;
+  }
+  [data-reveal][data-shown] {
+    animation: vz-reveal 0.7s cubic-bezier(0.22, 0.65, 0.3, 1) var(--reveal-delay, 0s) forwards;
   }
 }
 
@@ -140,6 +261,26 @@
     color: transparent;
     -webkit-text-stroke: 1.2px var(--color-noir);
   }
+  /* Underline that sweeps in from the left on hover, out to the right. */
+  .vz-link {
+    position: relative;
+  }
+  .vz-link::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    bottom: -3px;
+    left: 0;
+    height: 1.5px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.3s ease;
+  }
+  .vz-link:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
   /* Dashed waveform strip, eased at both ends by an elliptical mask. */
   .vz-waveform {
     -webkit-mask-image: radial-gradient(ellipse 100% 260% at 50% 50%, #000 40%, transparent 41%);
@@ -200,5 +341,12 @@
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+
+  /* Reveal targets must never sit hidden waiting for a transition. */
+  [data-reveal] {
+    opacity: 1 !important;
+    translate: none !important;
+    scale: none !important;
   }
 }

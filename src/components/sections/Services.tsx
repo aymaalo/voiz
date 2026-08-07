@@ -3,7 +3,7 @@ import type { Dictionary } from '@/content/i18n';
 export function Services({ t }: { t: Dictionary }) {
   return (
     <section id="services" className="mx-auto max-w-[1280px] px-5 py-[100px] md:px-10 md:py-[130px]">
-      <div className="mb-10 flex items-baseline gap-4 md:mb-[60px] md:gap-6">
+      <div data-reveal="" className="mb-10 flex items-baseline gap-4 md:mb-[60px] md:gap-6">
         <h2 className="m-0 text-[clamp(52px,7vw,110px)] leading-none font-black tracking-[-.04em] uppercase">
           {t.servTitle}
         </h2>
@@ -13,15 +13,20 @@ export function Services({ t }: { t: Dictionary }) {
       </div>
 
       <div className="flex flex-col">
-        {t.services.map((s) => (
+        {t.services.map((s, i) => (
           <div
             key={s.num}
-            className="grid grid-cols-[48px_1fr] items-center gap-5 border-t border-anthracite px-3 py-7 transition-colors hover:bg-orange hover:text-noir md:grid-cols-[76px_1fr] md:gap-7 md:px-5 md:py-[34px]"
+            data-reveal=""
+            style={{ '--reveal-delay': `${i * 70}ms` } as React.CSSProperties}
+            className="group grid grid-cols-[48px_1fr] items-center gap-5 border-t border-anthracite px-3 py-7 transition-colors hover:bg-orange hover:text-noir md:grid-cols-[76px_1fr] md:gap-7 md:px-5 md:py-[34px]"
           >
-            <div aria-hidden="true" className="font-serif text-[32px] opacity-90 italic md:text-[44px]">
+            <div
+              aria-hidden="true"
+              className="font-serif text-[32px] opacity-90 italic transition-transform duration-300 group-hover:-rotate-6 group-hover:scale-110 md:text-[44px]"
+            >
               {s.num}
             </div>
-            <div>
+            <div className="transition-transform duration-300 group-hover:translate-x-2">
               <h3 className="m-0 text-[clamp(20px,5vw,36px)] font-bold tracking-[-.02em] md:text-[clamp(24px,2.6vw,36px)]">
                 {s.name}
               </h3>
@@ -34,7 +39,10 @@ export function Services({ t }: { t: Dictionary }) {
         <div className="border-t border-anthracite" />
       </div>
 
-      <p className="mx-auto mt-[50px] mb-0 max-w-[820px] text-center font-serif text-[clamp(20px,2.4vw,32px)] leading-[1.35] text-orange text-pretty italic md:mt-[70px]">
+      <p
+        data-reveal="zoom"
+        className="mx-auto mt-[50px] mb-0 max-w-[820px] text-center font-serif text-[clamp(20px,2.4vw,32px)] leading-[1.35] text-orange text-pretty italic md:mt-[70px]"
+      >
         « {t.positioning} »
       </p>
     </section>
