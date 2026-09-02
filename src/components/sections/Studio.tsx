@@ -4,16 +4,15 @@ import type { Dictionary } from '@/content/i18n';
 export function Studio({ t }: { t: Dictionary }) {
   return (
     <section className="relative mx-auto max-w-[1280px] px-5 pt-[110px] pb-[90px] md:px-10 md:pt-[150px] md:pb-[130px]">
-      <div className="absolute top-[150px] left-10 hidden rotate-180 text-[12px] font-bold tracking-[.4em] text-orange uppercase [writing-mode:vertical-rl] lg:block">
-        {t.pitchKicker} · 01
-      </div>
-
-      <div className="grid grid-cols-1 items-end gap-12 md:grid-cols-[minmax(0,1fr)_380px] md:gap-20 lg:pl-[90px]">
+      <div className="grid grid-cols-1 items-end gap-12 md:grid-cols-[minmax(0,1fr)_380px] md:gap-20">
         <p
           data-reveal=""
           className="m-0 text-[clamp(26px,6vw,46px)] leading-[1.22] font-normal tracking-[-.01em] text-pretty md:text-[clamp(30px,3.4vw,46px)]"
         >
-          {t.pitchA} <span className="font-serif text-orange italic">{t.pitchB}</span> {t.pitchC}
+          {/* Instrument Serif has a far smaller x-height than Inter, so the
+              inline accent is scaled up to sit optically level with it. */}
+          {t.pitchA} <span className="font-serif text-[1.12em] text-orange">{t.pitchB}</span>{' '}
+          {t.pitchC}
         </p>
 
         <div
@@ -21,7 +20,7 @@ export function Studio({ t }: { t: Dictionary }) {
           style={{ '--reveal-delay': '150ms' } as React.CSSProperties}
           className="relative"
         >
-          <div className="h-[240px] rotate-2 md:h-[300px]">
+          <div className="h-[240px] md:h-[300px]">
             <ImageSlot
               shape="rounded"
               alt={t.studioPhotoAlt}

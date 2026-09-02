@@ -1,6 +1,8 @@
 import { Logo } from '@/components/brand/Logo';
 import type { Dictionary } from '@/content/i18n';
 import { site } from '@/content/site';
+import { LogoShape } from '../brand/LogoShape';
+import { LogoText } from '../brand/LogoText';
 
 type FooterProps = {
   t: Dictionary;
@@ -19,10 +21,18 @@ export function Footer({ t, anchorBase = '' }: FooterProps) {
   ];
 
   return (
-    <footer className="flex flex-col gap-10 px-5 pt-14 pb-10 md:gap-[50px] md:px-10 md:pt-[70px]">
+    <footer className="flex flex-col gap-10 px-5 pb-10 md:gap-[50px] md:px-10">
+      <div data-reveal="zoom" className="flex flex-col items-center self-center text-center">
+        {/* Decorative watermark. It spans the whole footer, so without
+            pointer-events-none its filled rings swallow clicks meant for the
+            links underneath — "Retour en haut" sits right on one. */}
+        <LogoShape className="pointer-events-none w-screen h-auto rotate-180 absolute -top-[8px] text-orange opacity-5" />
+      </div>
       <div data-reveal="zoom" className="flex flex-col items-center gap-5 self-center text-center">
         <Logo className="h-[clamp(60px,14vw,180px)] w-auto text-ivoire" />
-        <p className="m-0 font-serif text-[17px] text-orange italic md:text-[19px]">{t.mantra}</p>
+        <p className="m-0 max-w-[520px] font-serif text-[18px] text-orange text-balance md:text-[21px]">
+          {t.footerTagline}
+        </p>
       </div>
 
       <div

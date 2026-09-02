@@ -76,7 +76,7 @@ export default async function ProjectsPage({
           <h1 className="mt-6 mb-4 text-[clamp(44px,8vw,110px)] leading-none font-black tracking-[-.04em] uppercase">
             {t.projectsPageTitle}
           </h1>
-          <p className="m-0 max-w-[680px] font-serif text-[20px] text-orange italic md:text-[24px]">
+          <p className="m-0 max-w-[680px] font-serif text-[22px] text-orange md:text-[26px]">
             {t.projectsPageIntro}
           </p>
         </section>

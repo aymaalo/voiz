@@ -30,14 +30,12 @@ export function Projects({ locale, t, variant = 'home' }: ProjectsProps) {
       }`}
     >
       {variant === 'home' ? (
-        <div data-reveal="" className="mb-10 flex items-baseline gap-4 md:mb-[60px] md:gap-6">
-          <h2 className="m-0 text-[clamp(52px,7vw,110px)] leading-none font-black tracking-[-.04em] uppercase">
-            {t.projTitle}
-          </h2>
-          <span className="font-serif text-[clamp(22px,2.6vw,34px)] text-orange italic">
-            {t.projCount}
-          </span>
-        </div>
+        <h2
+          data-reveal=""
+          className="m-0 mb-10 text-[clamp(52px,7vw,110px)] leading-none font-black tracking-[-.04em] uppercase md:mb-[60px]"
+        >
+          {t.projTitle}
+        </h2>
       ) : null}
 
       <div
@@ -67,7 +65,7 @@ export function Projects({ locale, t, variant = 'home' }: ProjectsProps) {
       </div>
 
       {visible.length > 0 ? (
-        <div className="vz-grid" data-filtered={filter !== 'tous'}>
+        <div className="vz-grid">
           {visible.map((p, i) => (
             <ProjectTile
               key={p.id}
@@ -75,7 +73,7 @@ export function Projects({ locale, t, variant = 'home' }: ProjectsProps) {
               locale={locale}
               t={t}
               priority={i === 0}
-              revealDelay={(i % 4) * 80}
+              revealDelay={(i % 3) * 80}
             />
           ))}
         </div>
@@ -87,7 +85,7 @@ export function Projects({ locale, t, variant = 'home' }: ProjectsProps) {
         <div data-reveal="" className="mt-[50px] flex justify-center md:mt-[70px]">
           <Link
             href={projectsPath(locale)}
-            className="group border-b border-orange font-serif text-[24px] text-orange italic transition-colors hover:text-ivoire md:text-[30px]"
+            className="group border-b border-orange font-serif text-[26px] text-orange transition-colors hover:text-ivoire md:text-[32px]"
           >
             {t.projAll}{' '}
             <span className="inline-block transition-transform duration-300 group-hover:translate-x-2">

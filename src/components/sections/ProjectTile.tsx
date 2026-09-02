@@ -13,15 +13,12 @@ type TileProps = {
   revealDelay?: number;
 };
 
-function spanVars(project: Project, revealDelay = 0): React.CSSProperties {
-  const { cs, rs, csSm, rsSm } = project.span;
-  return {
-    '--cs': cs,
-    '--rs': rs,
-    '--cs-sm': csSm,
-    '--rs-sm': rsSm,
-    '--reveal-delay': `${revealDelay}ms`,
-  } as React.CSSProperties;
+/** Every tile fills one identical cell of the grid — see .vz-tile. */
+const TILE = 'vz-tile rounded-[6px] transition-transform duration-300';
+const SIZES = '(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 420px';
+
+function delayVar(revealDelay = 0): React.CSSProperties {
+  return { '--reveal-delay': `${revealDelay}ms` } as React.CSSProperties;
 }
 
 function VideoTile({
@@ -31,8 +28,6 @@ function VideoTile({
   priority,
   revealDelay,
 }: TileProps & { project: VideoProject }) {
-  const big = project.span.cs >= 4;
-
   const body = (
     <>
       <div className="h-full w-full transition-transform duration-500 ease-out group-hover:scale-[1.06]">
@@ -41,29 +36,21 @@ function VideoTile({
           alt={project.title[locale]}
           placeholder={project.placeholder[locale]}
           priority={priority}
-          sizes={big ? '(max-width: 900px) 100vw, 860px' : '(max-width: 900px) 100vw, 420px'}
+          sizes={SIZES}
         />
       </div>
-      <span
-        aria-hidden="true"
-        className="vz-stroke-ivoire pointer-events-none absolute top-[14px] left-[18px] font-serif text-[34px] leading-none italic md:text-[44px]"
-      >
-        {project.num}
-      </span>
       <div className="pointer-events-none absolute inset-x-0 bottom-0 flex items-end justify-between gap-3 bg-[linear-gradient(180deg,transparent,rgba(6,7,11,.92))] p-[18px] md:gap-4 md:p-5">
         <div>
           <div className="text-[11px] font-bold tracking-[.22em] text-orange uppercase">
             {project.kicker[locale]}
           </div>
-          <div className={`mt-1 font-bold ${big ? 'text-[17px] md:text-[19px]' : 'text-[16px]'}`}>
+          <div className="mt-1 text-[16px] font-bold text-balance md:text-[17px]">
             {project.title[locale]}
           </div>
         </div>
         <div
           aria-hidden="true"
-          className={`flex flex-none items-center justify-center rounded-full bg-orange text-noir transition-transform duration-300 group-hover:scale-110 ${
-            big ? 'h-[46px] w-[46px] text-[16px]' : 'h-10 w-10 text-[14px]'
-          }`}
+          className="flex h-10 w-10 flex-none items-center justify-center rounded-full bg-orange text-[14px] text-noir transition-transform duration-300 group-hover:scale-110"
         >
           ▶
         </div>
@@ -71,8 +58,7 @@ function VideoTile({
     </>
   );
 
-  const className =
-    'vz-tile group relative overflow-hidden rounded-[6px] transition-transform duration-300';
+  const className = `${TILE} group relative overflow-hidden`;
 
   if (project.href) {
     return (
@@ -82,7 +68,7 @@ function VideoTile({
         rel="noopener noreferrer"
         data-reveal="zoom"
         className={className}
-        style={spanVars(project, revealDelay)}
+        style={delayVar(revealDelay)}
         aria-label={`${project.kicker[locale]} · ${project.title[locale]} — ${t.play}`}
       >
         {body}
@@ -91,54 +77,37 @@ function VideoTile({
   }
 
   return (
-    <article data-reveal="zoom" className={className} style={spanVars(project, revealDelay)}>
+    <article data-reveal="zoom" className={className} style={delayVar(revealDelay)}>
       {body}
     </article>
   );
 }
 
 function AudioTile({ project, locale, t, revealDelay }: TileProps & { project: AudioProject }) {
-  const isOrange = project.variant === 'orange';
-
   return (
     <article
       data-reveal="zoom"
-      className={`vz-tile flex flex-col justify-between rounded-[6px] p-5 transition-[transform,border-color] duration-300 [transform:rotate(var(--tilt))] hover:[transform:rotate(0deg)] md:p-6 ${
-        isOrange ? 'bg-orange text-noir' : 'border border-anthracite bg-card hover:border-orange'
-      }`}
-      style={
-        { ...spanVars(project, revealDelay), '--tilt': `${project.tilt}deg` } as React.CSSProperties
-      }
+      className={`${TILE} flex flex-col justify-between border border-anthracite bg-card p-5 transition-colors hover:border-orange`}
+      style={delayVar(revealDelay)}
     >
-      <div className="flex items-baseline justify-between">
-        <span
-          aria-hidden="true"
-          className={`font-serif text-[34px] leading-none italic md:text-[40px] ${
-            isOrange ? 'vz-stroke-noir' : 'vz-stroke-orange'
-          }`}
-        >
-          {project.num}
-        </span>
-        <span
-          className={`text-[11px] font-bold tracking-[.22em] uppercase ${
-            isOrange ? '' : 'text-orange'
-          }`}
-        >
-          {project.kicker[locale]}
-        </span>
-      </div>
+      <span className="text-[11px] font-bold tracking-[.22em] text-orange uppercase">
+        {project.kicker[locale]}
+      </span>
 
+      {/* Two title lines are always reserved and never exceeded, so every audio
+          tile's content block is exactly the same height and the grid cell
+          keeps the size its aspect ratio gives it. */}
       <div className="py-3">
-        <h3 className="m-0 text-[17px] font-bold md:text-[19px]">{project.title[locale]}</h3>
-        <p className={`m-0 mt-1 text-[13px] ${isOrange ? 'opacity-70' : 'text-muted'}`}>
-          {project.subtitle[locale]}
-        </p>
+        <h3 className="m-0 line-clamp-2 min-h-[2.6em] text-[17px] leading-[1.3] font-bold text-balance md:text-[19px]">
+          {project.title[locale]}
+        </h3>
+        <p className="m-0 mt-1 line-clamp-1 text-[13px] text-muted">{project.subtitle[locale]}</p>
       </div>
 
       <AudioPlayer
         src={project.audioSrc}
         duration={project.duration}
-        variant={isOrange ? 'orange' : 'dark'}
+        variant="dark"
         trackTitle={project.title[locale]}
         labels={{ play: t.play, pause: t.pause, comingSoon: t.audioComingSoon }}
       />

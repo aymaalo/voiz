@@ -78,8 +78,17 @@ export default async function OpengraphImage({ params }: { params: Promise<{ lan
           Vortex&nbsp;<span style={{ color: '#3F3F3F' }}>of</span>&nbsp;
           <span style={{ color: '#FF5300' }}>Noise</span>
         </div>
-        <div style={{ display: 'flex', marginTop: 26, fontSize: 34, color: 'rgba(230,231,226,.8)' }}>
-          {t.mantra}
+        <div
+          style={{
+            display: 'flex',
+            marginTop: 26,
+            maxWidth: 880,
+            fontSize: 30,
+            lineHeight: 1.3,
+            color: 'rgba(230,231,226,.8)',
+          }}
+        >
+          {t.heroTagline}
         </div>
         <div
           style={{

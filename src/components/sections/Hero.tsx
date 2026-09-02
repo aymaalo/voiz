@@ -39,26 +39,34 @@ export function Hero({ t }: { t: Dictionary }) {
         aria-hidden="true"
         className="absolute inset-0"
         style={{
+          // Deepened a touch so the headline and CTAs sit clearly on top,
+          // without veiling the brand animation itself.
           background:
-            'radial-gradient(ellipse 70% 55% at 50% 42%, rgba(255,83,0,.14) 0%, transparent 60%),' +
-            'radial-gradient(ellipse 110% 90% at 50% 35%, transparent 45%, rgba(6,7,11,.9) 100%),' +
-            'linear-gradient(180deg, transparent 55%, #06070b 100%)',
+            'radial-gradient(ellipse 70% 55% at 50% 42%, rgba(255,83,0,.11) 0%, transparent 60%),' +
+            'radial-gradient(ellipse 110% 90% at 50% 35%, transparent 42%, rgba(6,7,11,.94) 100%),' +
+            'linear-gradient(180deg, transparent 50%, #06070b 100%)',
         }}
       />
 
       <div className="absolute right-5 bottom-[92px] left-5 flex flex-col items-start justify-between gap-8 md:right-10 md:bottom-[110px] md:left-10 md:flex-row md:items-end md:gap-10">
         <div data-reveal="">
-          <h1 className="m-0 text-[clamp(34px,9vw,58px)] leading-[.9] font-black tracking-[-.03em] uppercase md:text-[clamp(34px,4vw,58px)]">
-            {/* One serif-orange counterpoint, like the section headings — not a
-                style per word. */}
+          <h1
+            // The burnt word paints its glitch layer with a ::after copy of
+            // itself; naming the heading explicitly keeps screen readers from
+            // hearing "Noise" twice.
+            aria-label="Vortex of Noise"
+            className="m-0 text-[clamp(34px,9vw,58px)] leading-[.9] font-black tracking-[-.03em] uppercase md:text-[clamp(34px,4vw,58px)]"
+          >
+            {/* NOISE is the word that carries the brand, so it gets the burnt
+                treatment; "of" steps back to a light lowercase connector. */}
             Vortex{' '}
-            <span className="font-serif text-[.92em] font-normal text-orange normal-case italic">
+            <span className="font-serif text-[.72em] font-normal text-ivoire/80 normal-case">
               of
             </span>{' '}
             Noise
           </h1>
-          <p className="mt-[14px] mb-0 font-serif text-[clamp(16px,1.4vw,20px)] text-ivoire/80 italic">
-            {t.mantra}
+          <p className="mt-[18px] mb-0 max-w-[560px] text-[clamp(15px,1.3vw,19px)] leading-[1.45] text-ivoire/80 text-pretty">
+            {t.heroTagline}
           </p>
         </div>
 

@@ -55,7 +55,7 @@ export function Contact({ t, locale }: { t: Dictionary; locale: Locale }) {
           <h2 className="m-0 text-[clamp(38px,9vw,80px)] leading-[.95] font-black tracking-[-.04em] uppercase md:text-[clamp(44px,5.5vw,80px)]">
             {t.contactTitle}
           </h2>
-          <p className="mt-6 mb-0 max-w-[440px] font-serif text-[20px] italic md:mt-[30px] md:text-[24px]">
+          <p className="mt-6 mb-0 max-w-[480px] font-serif text-[21px] leading-[1.35] text-pretty md:mt-[30px] md:text-[25px]">
             {t.contactSub}
           </p>
           {site.email ? (

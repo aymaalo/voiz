@@ -42,22 +42,47 @@ export function Nav({ locale, t, switchHref, anchorBase = '' }: NavProps) {
 
   return (
     <>
+      {/* Permanent backdrop for the nav, on every page and at every scroll
+          position. The nav is mix-blend-difference, which reads white over dark
+          but turns a muddy blue over the orange marquee and contact block; with
+          a near-black veil always underneath, the difference blend resolves back
+          to the original colours everywhere. Sits below the nav (z-45 vs z-50)
+          so it is part of the backdrop rather than something the nav blends. */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none fixed inset-x-0 top-0 z-[45] h-[130px]"
+        style={{
+          background:
+            'linear-gradient(180deg, #06070b 0%, rgba(6,7,11,.92) 42%, rgba(6,7,11,0) 100%)',
+        }}
+      />
+
       <nav
         // mix-blend-difference keeps the nav legible over both the video and the
         // orange contact section without any backdrop of its own.
         className="fixed inset-x-0 top-0 z-50 flex animate-[vz-nav-in_.7s_ease-out_.15s_both] items-center justify-between px-5 py-[18px] mix-blend-difference md:px-10 md:py-[22px]"
       >
-        <Link href={`/${locale}`} aria-label="VOIZ" className="flex-none">
-          <Logo className="h-8 w-auto text-ivoire md:h-9" />
-        </Link>
+        {/* Back to the top of the home page — a plain hash on the home page
+            itself so it scrolls rather than re-navigating. */}
+        {anchorBase ? (
+          <Link href={`${anchorBase}#top`} aria-label={t.homeAria} className="flex-none">
+            <Logo className="h-8 w-auto text-ivoire md:h-9" />
+          </Link>
+        ) : (
+          <a href="#top" aria-label={t.homeAria} className="flex-none">
+            <Logo className="h-8 w-auto text-ivoire md:h-9" />
+          </a>
+        )}
 
         <div className="hidden items-center gap-8 text-[12px] font-semibold tracking-[.14em] uppercase md:flex">
           {links.map((l) => (
             <a
               key={l.href}
               href={l.href}
-              className={`transition-colors hover:text-orange ${
-                l.accent ? 'border-b-2 border-orange pb-[2px]' : 'vz-link'
+              // Every item shares .vz-link's metrics; the accent one just keeps
+              // its underline drawn, so nothing shifts it out of line.
+              className={`vz-link transition-colors hover:text-orange ${
+                l.accent ? 'vz-link-on text-orange' : ''
               }`}
             >
               {l.label}

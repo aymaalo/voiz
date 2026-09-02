@@ -14,10 +14,12 @@ const inter = Inter({
   display: 'swap',
 });
 
+// The accent face, roman cut only. The brand wanted the serif back but never
+// slanted, so the italic is not loaded at all and nothing can reach for it.
 const instrumentSerif = Instrument_Serif({
   subsets: ['latin'],
   weight: '400',
-  style: 'italic',
+  style: 'normal',
   variable: '--font-instrument',
   display: 'swap',
 });

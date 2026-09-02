@@ -11,6 +11,8 @@
   --color-muted: #a3a4a0;
   --color-card: #0b0c11;
 
+  /* Inter carries the interface and body copy; Instrument Serif is the accent
+     voice. Upright only — the brand does not want italics anywhere. */
   --font-sans: var(--font-inter), Inter, system-ui, sans-serif;
   --font-serif: var(--font-instrument), 'Instrument Serif', serif;
 
@@ -122,22 +124,6 @@
   }
 }
 
-/* Sound ripples radiating from the About portrait. Rings spawn just outside
-   the photo, swell past the frame, and dissolve. */
-@keyframes vz-ripple {
-  0% {
-    scale: 0.78;
-    opacity: 0;
-  }
-  12% {
-    opacity: 0.75;
-  }
-  100% {
-    scale: 1.18;
-    opacity: 0;
-  }
-}
-
 /* Page-load entrances (referenced from Tailwind arbitrary animate classes). */
 @keyframes vz-hero-in {
   from {
@@ -158,6 +144,44 @@
   to {
     opacity: 1;
     translate: 0 0;
+  }
+}
+
+/* Chromatic slice that jumps across a burnt word. steps(1) holds each frame,
+   so it reads as discrete tearing rather than a smooth slide, and the word
+   sits clean for most of the cycle. */
+@keyframes vz-glitch {
+  0%,
+  84%,
+  100% {
+    opacity: 0;
+    translate: 0;
+    clip-path: inset(45% 0 50% 0);
+  }
+  86% {
+    opacity: 0.85;
+    translate: -3px 0;
+    clip-path: inset(16% 0 76% 0);
+  }
+  88% {
+    opacity: 0.85;
+    translate: 4px 0;
+    clip-path: inset(54% 0 38% 0);
+  }
+  90% {
+    opacity: 0;
+    translate: 0;
+    clip-path: inset(45% 0 50% 0);
+  }
+  93% {
+    opacity: 0.7;
+    translate: -5px 0;
+    clip-path: inset(72% 0 20% 0);
+  }
+  95% {
+    opacity: 0;
+    translate: 0;
+    clip-path: inset(45% 0 50% 0);
   }
 }
 
@@ -281,6 +305,38 @@
     transform: scaleX(1);
     transform-origin: left;
   }
+  /* Permanently underlined variant for the active/accent nav item. Sharing
+     .vz-link's absolutely-positioned rule keeps its box identical to its
+     siblings — a border would make it taller and knock it out of line. */
+  .vz-link-on::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+  /* Burnt-film treatment, echoing the brand's scorched logo: a charred body,
+     an incandescent rim and an orange bloom eating outwards into the black.
+     Sizes are in em so the rim scales with the type. */
+  .vz-burn {
+    position: relative;
+    display: inline-block;
+    color: #1c1613;
+    -webkit-text-stroke: 0.026em #ffd8bd;
+    text-shadow:
+      0 0 0.03em rgba(255, 190, 140, 0.95),
+      0 0 0.12em rgba(255, 83, 0, 0.9),
+      0 0 0.3em rgba(255, 83, 0, 0.55),
+      0 0 0.7em rgba(255, 83, 0, 0.3);
+  }
+  /* Needs data-text carrying the same string as the element's own text. */
+  .vz-burn::after {
+    content: attr(data-text);
+    position: absolute;
+    inset: 0;
+    color: var(--color-orange);
+    -webkit-text-stroke: 0;
+    text-shadow: none;
+    pointer-events: none;
+    animation: vz-glitch 7s steps(1, end) infinite;
+  }
   /* Dashed waveform strip, eased at both ends by an elliptical mask. */
   .vz-waveform {
     -webkit-mask-image: radial-gradient(ellipse 100% 260% at 50% 50%, #000 40%, transparent 41%);
@@ -290,40 +346,42 @@
 
 /* ---------------------------------------------------------------------------
    Projects mosaic
-   The design is a 6-column / 128px-row dense mosaic at desktop. Below 900px it
-   collapses to 2 columns so tiles stay legible. Spans come from the project
-   data as --cs / --rs (desktop) and --cs-sm / --rs-sm (mobile).
+   Every tile is the same rectangle, straight, on a regular grid — 1 column on
+   phones, 2 from 640px, 3 from 1024px. Uniform cells mean any filtered subset
+   tiles without holes, so the layout never has to change per view. 3:2 leaves
+   the audio tiles' fixed ~171px of content room to breathe at the narrowest
+   column any of those breakpoints can produce.
    --------------------------------------------------------------------------- */
 .vz-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  grid-auto-rows: 104px;
-  grid-auto-flow: dense;
+  grid-template-columns: minmax(0, 1fr);
   gap: 14px;
 }
 
+/* Taller while the columns are narrow, so the audio tiles' fixed content block
+   always clears the cell with room to spare; 3:2 once there is width for it. */
 .vz-tile {
-  grid-column: span var(--cs-sm);
-  grid-row: span var(--rs-sm);
+  aspect-ratio: 4 / 3;
 }
 
-@media (min-width: 900px) {
+@media (min-width: 640px) {
   .vz-grid {
-    grid-template-columns: repeat(6, minmax(0, 1fr));
-    grid-auto-rows: 128px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .vz-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 20px;
   }
+}
 
+/* The narrowest three-column cell (301px at 1024px) is only just taller than
+   an audio tile's content, so 3:2 waits until there is width to spare. */
+@media (min-width: 1200px) {
   .vz-tile {
-    grid-column: span var(--cs);
-    grid-row: span var(--rs);
-  }
-
-  /* Filtered views can't tile the bespoke mosaic without holes, so every tile
-     falls back to a uniform 2x2 cell. */
-  .vz-grid[data-filtered='true'] .vz-tile {
-    grid-column: span 2;
-    grid-row: span 2;
+    aspect-ratio: 3 / 2;
   }
 }
 
