@@ -1,39 +1,51 @@
-import { ImageSlot } from '@/components/ui/ImageSlot';
+import Image from 'next/image';
 import type { Dictionary } from '@/content/i18n';
+import { site } from '@/content/site';
 
 export function Studio({ t }: { t: Dictionary }) {
-  return (
-    <section className="relative mx-auto max-w-[1280px] px-5 pt-[110px] pb-[90px] md:px-10 md:pt-[150px] md:pb-[130px]">
-      <div className="grid grid-cols-1 items-end gap-12 md:grid-cols-[minmax(0,1fr)_380px] md:gap-20">
-        <p
-          data-reveal=""
-          className="m-0 text-[clamp(26px,6vw,46px)] leading-[1.22] font-normal tracking-[-.01em] text-pretty md:text-[clamp(30px,3.4vw,46px)]"
-        >
-          {/* Instrument Serif has a far smaller x-height than Inter, so the
-              inline accent is scaled up to sit optically level with it. */}
-          {t.pitchA} <span className="font-serif text-[1.12em] text-orange">{t.pitchB}</span>{' '}
-          {t.pitchC}
-        </p>
+  const photo: string = site.photos.studio;
 
-        <div
-          data-reveal="right"
-          style={{ '--reveal-delay': '150ms' } as React.CSSProperties}
-          className="relative"
-        >
-          <div className="h-[240px] md:h-[300px]">
-            <ImageSlot
-              shape="rounded"
-              alt={t.studioPhotoAlt}
-              placeholder={t.pitchKicker}
-              sizes="(max-width: 900px) 100vw, 380px"
-            />
-          </div>
-          <div className="absolute top-[-22px] left-[-22px] transition-transform duration-300 hover:scale-110">
-            <div className="flex h-[74px] w-[74px] animate-[vz-spin_14s_linear_infinite] items-center justify-center rounded-full bg-orange">
-              <span aria-hidden="true" className="text-[26px] font-black text-noir">
-                ◎
-              </span>
-            </div>
+  return (
+    <section className="relative overflow-hidden">
+      {/* Photo 1: stacked above the text on small screens; on desktop it takes
+          the right half at full height and melts into the black on its left,
+          so it never sits under the copy. */}
+      {/* The fades are masks, not black overlays: the page behind has a living
+          warm tint, and a painted #06070b edge would show as a seam against it. */}
+      {photo ? (
+        <div className="vz-fade-studio relative h-[280px] md:absolute md:inset-y-0 md:right-0 md:h-auto md:w-[58%]">
+          <Image
+            src={photo}
+            alt={t.studioPhotoAlt}
+            fill
+            sizes="(max-width: 768px) 100vw, 58vw"
+            className="object-cover"
+          />
+        </div>
+      ) : null}
+
+      <div className="relative mx-auto max-w-[1280px] px-5 pt-[70px] pb-[90px] md:px-10 md:pt-[150px] md:pb-[150px]">
+        <div className={photo ? 'max-w-[640px]' : 'max-w-[860px]'}>
+          <p
+            data-reveal=""
+            className="m-0 text-[clamp(26px,6vw,46px)] leading-[1.22] font-normal tracking-[-.01em] text-pretty md:text-[clamp(30px,3.4vw,46px)]"
+          >
+            {/* Instrument Serif has a far smaller x-height than Inter, so the
+                inline accent is scaled up to sit optically level with it. */}
+            {t.pitchA} <span className="font-serif text-[1.12em] text-orange">{t.pitchB}</span>{' '}
+            {t.pitchC}
+          </p>
+
+          <div
+            data-reveal=""
+            style={{ '--reveal-delay': '120ms' } as React.CSSProperties}
+            className="mt-8 flex max-w-[560px] flex-col gap-4 md:mt-10"
+          >
+            {t.pitchBody.map((p) => (
+              <p key={p} className="m-0 text-[16px] leading-[1.7] text-ivoire/75 text-pretty md:text-[17px]">
+                {p}
+              </p>
+            ))}
           </div>
         </div>
       </div>

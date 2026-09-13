@@ -7,6 +7,28 @@ export const site = {
   fullName: 'VOIZ · Vortex of Noise',
   founder: 'Liam Grandsard',
 
+  /**
+   * Photos from the V2 feedback, web-sized copies (full-resolution originals are
+   * in "VOIZ - SITE WEB DOSSIER/SOURCES V2", outside the build). An empty path
+   * simply leaves the photo out, so the section still reads cleanly without it.
+   */
+  photos: {
+    /** Photo 1 — studio presentation, full height on the right, fading into black. */
+    studio: '/images/studio.jpg',
+    /** Photo 2 — dimmed background behind the testimonials. */
+    testimonials: '/images/testimonials.jpg',
+    /** Photo 3 — Liam's portrait in About. */
+    founder: { src: '/images/liam-grandsard.jpg', width: 1000, height: 1478 },
+    /** Photo 4 — duotone texture behind the contact heading. */
+    contact: '/images/contact.jpg',
+  },
+
+  /**
+   * Hero background. /media is served with a one-year immutable cache, so a new
+   * cut must get a new file name (showreel-v2.mp4), never overwrite this one.
+   */
+  heroVideo: { src: '/media/showreel-v1.mp4', poster: '/media/showreel-v1-poster.jpg' },
+
   /** Public inbox shown to visitors. Leave empty to hide the mailto fallback. */
   email: '',
 

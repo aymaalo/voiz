@@ -4,6 +4,7 @@ import { useEffect, useRef } from 'react';
 import { Equalizer } from '@/components/ui/Equalizer';
 import { Marquee } from '@/components/ui/Marquee';
 import type { Dictionary } from '@/content/i18n';
+import { site } from '@/content/site';
 
 export function Hero({ t }: { t: Dictionary }) {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -11,40 +12,53 @@ export function Hero({ t }: { t: Dictionary }) {
   useEffect(() => {
     const v = videoRef.current;
     if (!v) return;
+
+    // A fast-cut showreel is exactly the motion reduced-motion users opt out
+    // of, and data savers should not pull 4 MB for a backdrop: both keep the
+    // poster frame instead.
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const saveData = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection
+      ?.saveData;
+    if (reduced || saveData) return;
+
     // The muted attribute alone is not always enough for autoplay — Safari and
     // some Chromium builds need the property set before play() is called.
     v.muted = true;
     v.defaultMuted = true;
+    v.src = site.heroVideo.src;
     void v.play().catch(() => {
-      /* Autoplay blocked: the poster/gradient still reads fine. */
+      /* Autoplay blocked: the poster still reads fine. */
     });
   }, []);
 
   return (
     <header id="top" className="relative h-[100svh] min-h-[600px] overflow-hidden md:min-h-[700px]">
+      {/* No src in the markup: it is set on mount, after the motion and
+          data-saver checks, so the file is never fetched when not played. */}
       <video
         ref={videoRef}
-        src="/media/anim_voiz.mp4"
-        autoPlay
+        poster={site.heroVideo.poster}
         muted
         loop
         playsInline
-        preload="auto"
+        preload="none"
         aria-hidden="true"
         tabIndex={-1}
-        className="absolute inset-0 h-full w-full animate-[vz-hero-in_1.8s_ease-out_both] object-cover opacity-90"
+        className="absolute inset-0 h-full w-full animate-[vz-hero-in_1.8s_ease-out_both] object-cover"
       />
 
       <div
         aria-hidden="true"
         className="absolute inset-0"
         style={{
-          // Deepened a touch so the headline and CTAs sit clearly on top,
-          // without veiling the brand animation itself.
+          // The showreel is bright, colourful footage, so it sits under a
+          // uniform veil plus the vignette; the headline and CTAs stay legible
+          // on any frame while the reel still reads as moving picture.
           background:
-            'radial-gradient(ellipse 70% 55% at 50% 42%, rgba(255,83,0,.11) 0%, transparent 60%),' +
-            'radial-gradient(ellipse 110% 90% at 50% 35%, transparent 42%, rgba(6,7,11,.94) 100%),' +
-            'linear-gradient(180deg, transparent 50%, #06070b 100%)',
+            'radial-gradient(ellipse 70% 55% at 50% 42%, rgba(255,83,0,.10) 0%, transparent 60%),' +
+            'radial-gradient(ellipse 110% 90% at 50% 35%, transparent 38%, rgba(6,7,11,.92) 100%),' +
+            'linear-gradient(180deg, rgba(6,7,11,.35) 0%, rgba(6,7,11,.35) 45%, #06070b 100%),' +
+            'rgba(6,7,11,.3)',
         }}
       />
 

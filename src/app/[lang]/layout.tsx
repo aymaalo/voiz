@@ -1,28 +1,11 @@
 import type { Metadata, Viewport } from 'next';
-import { Inter, Instrument_Serif } from 'next/font/google';
 import { notFound } from 'next/navigation';
 import { FilmGrain, LivingBackground } from '@/components/ui/BackgroundFX';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
 import { getDictionary, isLocale, LOCALES, type Locale } from '@/content/i18n';
 import { getSiteUrl } from '@/content/site';
+import { instrumentSerif, inter } from '../fonts';
 import '../globals.css';
-
-const inter = Inter({
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700', '900'],
-  variable: '--font-inter',
-  display: 'swap',
-});
-
-// The accent face, roman cut only. The brand wanted the serif back but never
-// slanted, so the italic is not loaded at all and nothing can reach for it.
-const instrumentSerif = Instrument_Serif({
-  subsets: ['latin'],
-  weight: '400',
-  style: 'normal',
-  variable: '--font-instrument',
-  display: 'swap',
-});
 
 export function generateStaticParams() {
   return LOCALES.map((lang) => ({ lang }));

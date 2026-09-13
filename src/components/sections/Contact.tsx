@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { useState } from 'react';
 import type { Dictionary, Locale } from '@/content/i18n';
 import { site } from '@/content/site';
@@ -43,6 +44,23 @@ export function Contact({ t, locale }: { t: Dictionary; locale: Locale }) {
 
   return (
     <section id="contact" className="relative overflow-hidden bg-orange px-5 py-[90px] text-noir md:px-10 md:py-[120px]">
+      {/* Photo 4 as a duotone: greyscale multiplied into the orange, faded out
+          towards the form so the fields keep a clean ground. */}
+      {site.photos.contact ? (
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 [mask-image:linear-gradient(180deg,#000_0%,#000_40%,transparent_85%)] md:[mask-image:linear-gradient(90deg,#000_0%,#000_35%,transparent_70%)]"
+        >
+          <Image
+            src={site.photos.contact}
+            alt=""
+            fill
+            sizes="(max-width: 768px) 100vw, 70vw"
+            className="object-cover opacity-35 mix-blend-multiply grayscale"
+          />
+        </div>
+      ) : null}
+
       <div
         aria-hidden="true"
         className="vz-stroke-noir pointer-events-none absolute inset-x-0 top-[18px] text-[64px] font-black tracking-[-.04em] whitespace-nowrap uppercase [-webkit-text-stroke-color:rgba(6,7,11,.22)] [-webkit-text-stroke-width:1.5px] md:text-[120px]"
