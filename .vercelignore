@@ -1,6 +1,7 @@
 # Source material — not needed by the build, and heavy (PDFs, .ai, multiple mp4s).
 # The assets the site actually uses live in public/.
-VOIZ - SITE WEB DOSSIER/
-design_handoff_voiz_vitrine/
+/VOIZ - SITE WEB DOSSIER/
+/design_handoff_voiz_vitrine/
 # Local Supabase config and migrations — applied with the Supabase CLI, not part of the build.
-supabase/
+# Leading slash: without it the pattern also matches src/lib/supabase/ (the app's client code).
+/supabase/
