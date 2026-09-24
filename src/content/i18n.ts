@@ -109,9 +109,9 @@ export type Dictionary = {
 
 const fr: Dictionary = {
   htmlLang: 'fr',
-  metaTitle: 'VOIZ · Vortex of Noise — Création et post-production sonore',
+  metaTitle: 'VOIZ — Sound creation & Audio post-production Studio',
   metaDescription:
-    'VOIZ · Vortex of Noise — studio de création sonore et de post-production pour l’image et la scène, basé à Nantes. Sound direction, sound design, musique originale, mixage et mastering.',
+    'Sound design, music composition, sound editing and mixing for film, advertising, motion and live experiences. Discover VOIZ and our latest work.',
 
   navProjects: 'Projets',
   navServices: 'Services',
@@ -219,7 +219,7 @@ const fr: Dictionary = {
       quote: 'Le travail de VOIZ allie émotion forte et subtilité technique.',
       tag: 'Composition',
       author: 'Paul Guédon',
-      role: 'Compositeur',
+      role: 'Réalisateur',
     },
   ],
 
@@ -276,9 +276,9 @@ const fr: Dictionary = {
 
 const en: Dictionary = {
   htmlLang: 'en',
-  metaTitle: 'VOIZ · Vortex of Noise — Sound creation & audio post-production',
+  metaTitle: 'VOIZ — Sound creation & Audio post-production Studio',
   metaDescription:
-    'VOIZ · Vortex of Noise — a sound creation and post-production studio for screen and stage, based in Nantes. Sound direction, sound design, original music, mixing and mastering.',
+    'Sound design, music composition, sound editing and mixing for film, advertising, motion and live experiences. Discover VOIZ and our latest work.',
 
   navProjects: 'Projects',
   navServices: 'Services',
@@ -386,7 +386,7 @@ const en: Dictionary = {
       quote: 'VOIZ’s work combines strong emotion with technical subtlety.',
       tag: 'Composition',
       author: 'Paul Guédon',
-      role: 'Composer',
+      role: 'Director',
     },
   ],
 

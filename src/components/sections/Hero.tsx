@@ -79,6 +79,9 @@ export function Hero({ t }: { t: Dictionary }) {
             </span>{' '}
             Noise
           </h1>
+          <p className="mt-3 mb-0 font-serif text-[clamp(20px,2vw,28px)] leading-[1.2] text-orange text-balance">
+            {site.slogan}
+          </p>
           <p className="mt-[18px] mb-0 max-w-[560px] text-[clamp(15px,1.3vw,19px)] leading-[1.45] text-ivoire/80 text-pretty">
             {t.heroTagline}
           </p>

@@ -6,6 +6,8 @@ export const site = {
   name: 'VOIZ',
   fullName: 'VOIZ · Vortex of Noise',
   founder: 'Liam Grandsard',
+  /** Brand line under "Vortex of Noise" in the hero. English in both locales. */
+  slogan: 'Turning noise into sounds people remember',
 
   /**
    * Photos from the V2 feedback, web-sized copies (full-resolution originals are
@@ -30,15 +32,14 @@ export const site = {
   heroVideo: { src: '/media/showreel-v1.mp4', poster: '/media/showreel-v1-poster.jpg' },
 
   /** Public inbox shown to visitors. Leave empty to hide the mailto fallback. */
-  email: '',
+  email: 'hello@voizaudio.com',
 
-  /** TODO(client): real profile URLs. Empty string renders as plain text, not a dead link. */
+  /** Empty href renders as plain text, not a dead link. */
   social: [
-    { label: 'Instagram', href: '' },
-    { label: 'LinkedIn', href: '' },
-    { label: 'SoundCloud', href: '' },
-    { label: 'TikTok', href: '' },
-  ],
+    { label: 'Instagram', href: 'https://www.instagram.com/voiz.audio/' },
+    { label: 'LinkedIn', href: 'https://www.linkedin.com/in/liam-grandsard-5974b627b/' },
+    { label: 'TikTok', href: 'https://www.tiktok.com/@voizaudio' },
+  ] as readonly { label: string; href: string }[],
 } as const;
 
 /**

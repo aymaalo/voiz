@@ -66,11 +66,11 @@ export function Nav({ locale, t, switchHref, anchorBase = '' }: NavProps) {
             itself so it scrolls rather than re-navigating. */}
         {anchorBase ? (
           <Link href={`${anchorBase}#top`} aria-label={t.homeAria} className="flex-none">
-            <Logo className="h-8 w-auto text-ivoire md:h-9" />
+            <Logo className="h-11 w-auto text-ivoire md:h-14" />
           </Link>
         ) : (
           <a href="#top" aria-label={t.homeAria} className="flex-none">
-            <Logo className="h-8 w-auto text-ivoire md:h-9" />
+            <Logo className="h-11 w-auto text-ivoire md:h-14" />
           </a>
         )}
 

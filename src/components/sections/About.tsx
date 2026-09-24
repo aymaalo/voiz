@@ -23,7 +23,7 @@ export function About({ t }: { t: Dictionary }) {
           the separating, which keeps the section quiet. */}
       <article
         data-reveal=""
-        className="mt-12 grid grid-cols-1 items-center gap-10 md:mt-16 lg:grid-cols-[minmax(0,1fr)_minmax(0,400px)] lg:gap-16"
+        className="mt-12 grid grid-cols-1 items-center gap-10 md:mt-16 lg:grid-cols-[minmax(0,1fr)_minmax(0,540px)] lg:gap-16"
       >
         <div>
           <h3 className={BLOCK_TITLE}>{t.aboutVoizTitle}</h3>
@@ -54,7 +54,7 @@ export function About({ t }: { t: Dictionary }) {
             alt=""
             width={4500}
             height={3000}
-            sizes="400px"
+            sizes="540px"
             className="h-auto w-full scale-[1.6]"
           />
         </div>
