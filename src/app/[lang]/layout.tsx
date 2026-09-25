@@ -1,26 +1,11 @@
 import type { Metadata, Viewport } from 'next';
-import { Inter, Instrument_Serif } from 'next/font/google';
 import { notFound } from 'next/navigation';
 import { FilmGrain, LivingBackground } from '@/components/ui/BackgroundFX';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
 import { getDictionary, isLocale, LOCALES, type Locale } from '@/content/i18n';
 import { getSiteUrl } from '@/content/site';
+import { instrumentSerif, inter } from '../fonts';
 import '../globals.css';
-
-const inter = Inter({
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700', '900'],
-  variable: '--font-inter',
-  display: 'swap',
-});
-
-const instrumentSerif = Instrument_Serif({
-  subsets: ['latin'],
-  weight: '400',
-  style: 'italic',
-  variable: '--font-instrument',
-  display: 'swap',
-});
 
 export function generateStaticParams() {
   return LOCALES.map((lang) => ({ lang }));

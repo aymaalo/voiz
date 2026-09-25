@@ -3,6 +3,10 @@ import type { NextConfig } from 'next';
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
+  images: {
+    // Project tiles use the YouTube stills of the videos managed in /admin.
+    remotePatterns: [{ protocol: 'https', hostname: 'i.ytimg.com', pathname: '/vi/**' }],
+  },
   async redirects() {
     return [
       // The site always lives under a locale segment; French is the default.

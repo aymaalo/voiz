@@ -11,7 +11,10 @@ export function otherLocale(locale: Locale): Locale {
   return locale === 'fr' ? 'en' : 'fr';
 }
 
-type Service = { num: string; name: string; desc: string };
+/** `lead` is always visible; `detail` and `goal` open on hover / tap — see Services. */
+type Service = { name: string; lead: string; detail: string; goal: string };
+
+type Testimonial = { quote: string; tag: string; author: string; role: string };
 
 export type Dictionary = {
   /* meta */
@@ -29,29 +32,32 @@ export type Dictionary = {
   menuOpen: string;
   menuClose: string;
   skipToContent: string;
+  homeAria: string;
 
   /* hero */
-  mantra: string;
+  heroTagline: string;
   ctaContact: string;
   ctaListen: string;
   marquee: string[];
 
-  /* studio */
-  pitchKicker: string;
+  /* studio — pitchB is the orange serif accent between A and C */
   pitchA: string;
   pitchB: string;
   pitchC: string;
+  pitchBody: string[];
   studioPhotoAlt: string;
 
   /* projects */
   projTitle: string;
-  projAll: string;
-  projCount: string;
-  filters: { id: string; label: string }[];
+  projMore: string;
+  moreInfo: string;
+  filterAll: string;
   projEmpty: string;
+  projNone: string;
   play: string;
-  pause: string;
-  audioComingSoon: string;
+  close: string;
+  kindVideo: string;
+  kindAudio: string;
   filterAria: string;
   projectsPageTitle: string;
   projectsPageIntro: string;
@@ -59,26 +65,21 @@ export type Dictionary = {
 
   /* services */
   servTitle: string;
-  servCount: string;
+  servIntro: string;
   services: Service[];
-  positioning: string;
 
   /* testimonials */
   quotesKicker: string;
-  quote1: string;
-  quote1Tag: string;
-  quote1Author: string;
-  quote1Role: string;
-  quote2: string;
-  quote2Tag: string;
-  quote2Author: string;
-  quote2Role: string;
+  testimonials: Testimonial[];
 
   /* about */
-  aboutKicker: string;
-  about: string;
-  aboutLiam: string;
-  aboutLiamQuote: string;
+  aboutTitle: string;
+  aboutVoizTitle: string;
+  aboutVoizLead: string;
+  aboutVoizBody: string[];
+  aboutLiamTitle: string;
+  aboutLiamRole: string;
+  aboutLiamBody: string[];
   portraitAlt: string;
 
   /* contact */
@@ -98,6 +99,7 @@ export type Dictionary = {
   fInvalidEmail: string;
 
   /* footer */
+  footerTagline: string;
   footerRights: string;
   footerNav: string;
   footerSocial: string;
@@ -107,25 +109,26 @@ export type Dictionary = {
 
 const fr: Dictionary = {
   htmlLang: 'fr',
-  metaTitle: 'VOIZ · Vortex of Noise — Sound design & post-production audio',
+  metaTitle: 'VOIZ — Sound creation & Audio post-production Studio',
   metaDescription:
-    'VOIZ · Vortex of Noise — studio de direction artistique sonore, sound design, musique originale, mixage et mastering. Le son comme matière vivante.',
+    'Sound design, music composition, sound editing and mixing for film, advertising, motion and live experiences. Discover VOIZ and our latest work.',
 
   navProjects: 'Projets',
   navServices: 'Services',
-  navAbout: 'About',
+  navAbout: 'À propos',
   navContact: 'Contact',
   langLabel: 'FR → EN',
   langSwitchAria: 'Switch to English',
   menuOpen: 'Ouvrir le menu',
   menuClose: 'Fermer le menu',
   skipToContent: 'Aller au contenu',
+  homeAria: 'VOIZ · retour à l’accueil',
 
-  mantra: 'Le son comme matière vivante.',
+  heroTagline: 'Création sonore & post-production pour l’image et la scène.',
   ctaContact: 'Nous contacter',
   ctaListen: 'Écouter',
   marquee: [
-    'Direction artistique',
+    'Sound direction',
     'Sound design',
     'Musique originale',
     'Post-production',
@@ -133,100 +136,126 @@ const fr: Dictionary = {
     'Mastering',
   ],
 
-  pitchKicker: 'Le studio',
   pitchA: 'Comme un vortex en mouvement,',
-  pitchB: 'chaque son prend vie,',
-  pitchC:
-    'porte une émotion et captive l’attention. Chaque détail est travaillé pour faire résonner votre histoire.',
+  pitchB: 'chaque son converge',
+  pitchC: 'pour donner force, rythme et identité à l’image.',
+  pitchBody: [
+    'VOIZ réunit culture de l’image, musique et ingénierie sonore pour penser le son dans son ensemble, dédié aux histoires et images intenses.',
+    'De la direction sonore au master final, création et technique ne font qu’un.',
+  ],
   studioPhotoAlt: 'Le studio VOIZ',
 
   projTitle: 'Projets',
-  projAll: 'Tous les projets',
-  projCount: '(08)',
-  filters: [
-    { id: 'tous', label: 'Tous' },
-    { id: 'cinema', label: 'Cinéma' },
-    { id: 'publicite', label: 'Publicité' },
-    { id: 'spectacle', label: 'Spectacle vivant' },
-    { id: 'jeux-video', label: 'Jeux vidéo' },
-    { id: 'musique', label: 'Musique' },
-  ],
+  projMore: 'Plus de projets',
+  moreInfo: 'En savoir plus',
+  filterAll: 'Tous',
   projEmpty: 'Aucun projet dans cette catégorie pour le moment.',
+  projNone: 'Nos projets arrivent très bientôt.',
   play: 'Lecture',
-  pause: 'Pause',
-  audioComingSoon: 'Extrait bientôt disponible',
+  close: 'Fermer',
+  kindVideo: 'Vidéo',
+  kindAudio: 'Audio',
   filterAria: 'Filtrer les projets par catégorie',
-  projectsPageTitle: 'Tous les projets',
-  projectsPageIntro:
-    'Cinéma, publicité, spectacle vivant, jeux vidéo, musique · une sélection de créations sonores signées VOIZ.',
+  projectsPageTitle: 'Projets',
+  projectsPageIntro: 'Retrouvez une sélection plus vaste de nos réalisations.',
   backHome: 'Retour à l’accueil',
 
   servTitle: 'Services',
-  servCount: '(05)',
+  servIntro:
+    'Nous accompagnons les créateurs et les marques à révéler l’âme sonore de leurs projets, pour capter leur audience.',
   services: [
     {
-      num: '01',
-      name: 'Direction artistique sonore & accompagnement',
-      desc: 'Définition de l’univers sonore et de l’identité audio, propositions créatives en lien avec l’image, suivi artistique tout au long de la production.',
+      name: 'Sound Direction',
+      lead: 'Définir l’identité sonore du projet.',
+      detail:
+        'Intentions, références, parti pris esthétique, place de la musique, du sound design, des voix et des ambiances.',
+      goal: 'Donner une direction claire avant de produire.',
     },
     {
-      num: '02',
-      name: 'Sound design & conception sonore',
-      desc: 'Effets, textures, ambiances et éléments narratifs sur mesure. Sampling, transformation, saturation : une approche émotionnelle, immersive et cinématique.',
+      name: 'Sound Creation',
+      lead: 'Créer la matière sonore.',
+      detail:
+        'Sound design, musique originale, Foley, textures, ambiances, voix et éléments sur mesure.',
+      goal: 'Donner au projet une identité sonore forte et reconnaissable.',
     },
     {
-      num: '03',
-      name: 'Musique originale & composition',
-      desc: 'Composition adaptée au rythme et à l’intention du projet · de l’urbain au rock, de l’acoustique à l’orchestral.',
+      name: 'Audio Post-Production',
+      lead: 'Construire et finaliser la bande-son.',
+      detail:
+        'Montage son et dialogues, nettoyage, édition, mixage stéréo / 5.1, mastering et livrables.',
+      goal: 'Une bande-son propre, cohérente et prête à diffuser.',
     },
     {
-      num: '04',
-      name: 'Studio & post-production audio',
-      desc: 'Enregistrement voix et instruments, montage, mixage stéréo et immersif, mastering et livrables.',
-    },
-    {
-      num: '05',
-      name: 'Musique · artistes',
-      desc: 'DA sonore pour artistes, enregistrement, mixage, mastering, composition et arrangements.',
+      name: 'Full Sound Production',
+      lead: 'Confier toute la chaîne sonore à VOIZ.',
+      detail: 'Direction, création, musique, montage, sound design, mixage et livraison.',
+      goal: 'Un seul partenaire, du brief au master.',
     },
   ],
-  positioning:
-    'Nous accompagnons les créateurs d’images et de mouvements, à donner une âme sonore à leurs projets.',
 
-  quotesKicker: 'Ils nous font confiance',
-  quote1:
-    'Professionnel, réactif et force de proposition, VOIZ a grandement contribué à la qualité du film que j’ai réalisé. Je les recommande vivement !',
-  quote1Tag: 'Court-métrage',
-  quote1Author: 'David Le Royer',
-  quote1Role: 'Réalisateur',
-  quote2: 'Le travail de VOIZ allie émotion forte et subtilité technique.',
-  quote2Tag: 'Composition',
-  quote2Author: 'Paul Guédon',
-  quote2Role: 'Compositeur',
+  quotesKicker: 'Ils nous ont fait confiance',
+  testimonials: [
+    {
+      quote: 'VOIZ allie efficacité, réactivité et solide connaissance du son.',
+      tag: 'Publicité',
+      author: 'Jordan Vedrenne',
+      role: 'Réalisateur',
+    },
+    {
+      quote:
+        'VOIZ est maintenant notre partenaire sonore idéal pour nos spectacles : sensibilité artistique, maîtrise musicale et technique vont de pair !',
+      tag: 'Spectacle vivant',
+      author: 'Kathryn Mederos Syssoyeva',
+      role: 'Metteuse en scène',
+    },
+    {
+      quote:
+        'Professionnel, réactif et force de proposition, VOIZ a grandement contribué à la qualité du film que j’ai réalisé. Je les recommande vivement !',
+      tag: 'Court-métrage',
+      author: 'David Le Royer',
+      role: 'Réalisateur',
+    },
+    {
+      quote: 'Le travail de VOIZ allie émotion forte et subtilité technique.',
+      tag: 'Composition',
+      author: 'Paul Guédon',
+      role: 'Réalisateur',
+    },
+  ],
 
-  aboutKicker: 'À propos',
-  about:
-    'Une esthétique sonore moderne, organique, parfois abrasive, souvent cinématique. Des sons qui respirent, vibrent, se déforment et racontent.',
-  aboutLiam:
-    'Diplômé en ingénierie du son, Liam Grandsard a évolué plusieurs années dans l’industrie musicale, en studio comme sur scène, en produisant et mixant des artistes rap, R&B et pop-rock. Depuis 2023, il se consacre au son à l’image. Enfant, il réalisait déjà des courts-métrages avec le rêve de devenir réalisateur · il est finalement devenu réalisateur sonore. Du cloud rap au post-punk, de l’électronique au sound design, une approche instinctive, immersive, toujours au service de l’émotion.',
-  aboutLiamQuote:
-    'Faire ressentir, surprendre, émouvoir. Brut, émotif, hybride et vivant : voilà mon univers sonore.',
+  aboutTitle: 'À propos',
+  aboutVoizTitle: 'VOIZ',
+  aboutVoizLead:
+    'VOIZ est un studio de création sonore et de post-production dédié à la publicité, au cinéma et au spectacle vivant, basé à Nantes.',
+  aboutVoizBody: [
+    'Notre approche s’appuie sur une expérience antérieure en réalisation vidéo, ainsi que sur une solide culture de la musique et de la technique du son. Cette complémentarité nous permet de comprendre autant l’intention derrière l’image que sa fabrication sonore.',
+    'VOIZ a un penchant pour les thèmes sombres, dramatiques, bruts et horrifiques : là où le son surprend, transforme et marque.',
+  ],
+  aboutLiamTitle: 'Liam Grandsard',
+  aboutLiamRole: 'Fondateur',
+  aboutLiamBody: [
+    'Diplômé en ingénierie du son, Liam Grandsard évolue d’abord dans l’industrie musicale, en studio comme sur scène, produisant et mixant des artistes R&B, rap et pop-rock au sein d’un label parisien.',
+    'Avant le son, il réalisait clips et courts-métrages avec l’ambition de devenir réalisateur. Cette culture de l’image l’accompagne lorsqu’il se tourne pleinement vers la post-production sonore en 2023.',
+    'Aujourd’hui sound designer, mixeur et compositeur, il développe une approche à la croisée de l’émotion brute et de la précision technique, nourrie autant par la musique contemporaine que par le cinéma.',
+    'Du hip-hop au post-punk, de l’orchestral aux textures atmosphériques et électro, cette culture hybride façonne aujourd’hui son identité sonore.',
+  ],
   portraitAlt: 'Portrait de Liam Grandsard, fondateur de VOIZ',
 
-  contactTitle: 'Construisons votre projet sonore dès aujourd’hui',
+  contactTitle: 'Parlons de votre projet.',
   contactGhost: 'Contact · Contact · Contact',
   contactSub:
-    'Restons pro et clair : parlez-nous de votre image, de votre scène, de votre univers.',
+    'Parlez-nous de votre image, de votre scène ou de votre univers. Nous construirons ensemble l’approche sonore adaptée.',
   fName: 'Nom',
   fEmail: 'Email',
-  fProject: 'Type de projet (pub, ciné, spectacle…)',
+  fProject: 'Type de projet',
   fProjectOptions: [
     { value: 'publicite', label: 'Publicité' },
-    { value: 'cinema', label: 'Cinéma · court-métrage' },
+    { value: 'cinema', label: 'Cinéma' },
     { value: 'spectacle', label: 'Spectacle vivant' },
+    { value: 'animation', label: '3D / Animation' },
     { value: 'jeux-video', label: 'Jeux vidéo' },
-    { value: 'musique', label: 'Musique · artiste' },
-    { value: 'motion', label: 'Motion design · habillage' },
+    { value: 'musique', label: 'Musique' },
+    { value: 'corporate', label: 'Corporate' },
     { value: 'autre', label: 'Autre' },
   ],
   fMessage: 'Message',
@@ -237,6 +266,7 @@ const fr: Dictionary = {
   fRequired: 'Ce champ est requis.',
   fInvalidEmail: 'Adresse email invalide.',
 
+  footerTagline: 'Agence de création et de post-production sonore',
   footerRights: '© 2026 VOIZ · Vortex of Noise',
   footerNav: 'Menu',
   footerSocial: 'Réseaux',
@@ -246,9 +276,9 @@ const fr: Dictionary = {
 
 const en: Dictionary = {
   htmlLang: 'en',
-  metaTitle: 'VOIZ · Vortex of Noise — Sound design & audio post-production',
+  metaTitle: 'VOIZ — Sound creation & Audio post-production Studio',
   metaDescription:
-    'VOIZ · Vortex of Noise — sonic art direction, sound design, original music, mixing and mastering studio. Sound as living matter.',
+    'Sound design, music composition, sound editing and mixing for film, advertising, motion and live experiences. Discover VOIZ and our latest work.',
 
   navProjects: 'Projects',
   navServices: 'Services',
@@ -259,12 +289,13 @@ const en: Dictionary = {
   menuOpen: 'Open menu',
   menuClose: 'Close menu',
   skipToContent: 'Skip to content',
+  homeAria: 'VOIZ · back to home',
 
-  mantra: 'Sound as living matter.',
+  heroTagline: 'Sound creation & post-production for screen and stage.',
   ctaContact: 'Get in touch',
   ctaListen: 'Listen',
   marquee: [
-    'Art direction',
+    'Sound direction',
     'Sound design',
     'Original music',
     'Post-production',
@@ -272,98 +303,126 @@ const en: Dictionary = {
     'Mastering',
   ],
 
-  pitchKicker: 'The studio',
   pitchA: 'Like a vortex in motion,',
-  pitchB: 'every sound comes alive,',
-  pitchC:
-    'carries an emotion and captures attention. Every detail is crafted to make your story resonate.',
+  pitchB: 'every sound converges',
+  pitchC: 'to give the picture power, rhythm and identity.',
+  pitchBody: [
+    'VOIZ brings together visual culture, music and sound engineering to think about sound as a whole, in service of intense stories and images.',
+    'From sound direction to the final master, creation and technique are one.',
+  ],
   studioPhotoAlt: 'The VOIZ studio',
 
   projTitle: 'Projects',
-  projAll: 'All projects',
-  projCount: '(08)',
-  filters: [
-    { id: 'tous', label: 'All' },
-    { id: 'cinema', label: 'Film' },
-    { id: 'publicite', label: 'Advertising' },
-    { id: 'spectacle', label: 'Live performance' },
-    { id: 'jeux-video', label: 'Video games' },
-    { id: 'musique', label: 'Music' },
-  ],
+  projMore: 'More projects',
+  moreInfo: 'Learn more',
+  filterAll: 'All',
   projEmpty: 'No projects in this category yet.',
+  projNone: 'Our projects are coming very soon.',
   play: 'Play',
-  pause: 'Pause',
-  audioComingSoon: 'Excerpt coming soon',
+  close: 'Close',
+  kindVideo: 'Video',
+  kindAudio: 'Audio',
   filterAria: 'Filter projects by category',
-  projectsPageTitle: 'All projects',
-  projectsPageIntro:
-    'Film, advertising, live performance, video games, music · a selection of sonic work by VOIZ.',
+  projectsPageTitle: 'Projects',
+  projectsPageIntro: 'Explore a wider selection of our work.',
   backHome: 'Back home',
 
   servTitle: 'Services',
-  servCount: '(05)',
+  servIntro:
+    'We help creators and brands reveal the sonic soul of their projects, and capture their audience.',
   services: [
     {
-      num: '01',
-      name: 'Sonic art direction & guidance',
-      desc: 'Defining the sonic universe and audio identity, creative proposals tied to the image, artistic supervision throughout production.',
+      name: 'Sound Direction',
+      lead: 'Define the project’s sonic identity.',
+      detail:
+        'Intentions, references, aesthetic stance, and the place of music, sound design, voices and atmospheres.',
+      goal: 'Set a clear direction before production.',
     },
     {
-      num: '02',
-      name: 'Sound design & sonic conception',
-      desc: 'Bespoke effects, textures, atmospheres and narrative elements. Sampling, transformation, saturation: an emotional, immersive, cinematic approach.',
+      name: 'Sound Creation',
+      lead: 'Create the sonic material.',
+      detail:
+        'Sound design, original music, Foley, textures, atmospheres, voices and bespoke elements.',
+      goal: 'Give the project a strong, recognisable sonic identity.',
     },
     {
-      num: '03',
-      name: 'Original music & composition',
-      desc: 'Composition tuned to the project’s rhythm and intent · from urban to rock, acoustic to orchestral.',
+      name: 'Audio Post-Production',
+      lead: 'Build and finalise the soundtrack.',
+      detail:
+        'Sound and dialogue editing, cleanup, editing, stereo / 5.1 mixing, mastering and deliverables.',
+      goal: 'A clean, coherent soundtrack, ready to broadcast.',
     },
     {
-      num: '04',
-      name: 'Studio & audio post-production',
-      desc: 'Voice and instrument recording, editing, stereo and immersive mixing, mastering and deliverables.',
-    },
-    {
-      num: '05',
-      name: 'Music · artists',
-      desc: 'Sonic art direction for artists, recording, mixing, mastering, composition and arrangements.',
+      name: 'Full Sound Production',
+      lead: 'Entrust the entire sound chain to VOIZ.',
+      detail: 'Direction, creation, music, editing, sound design, mixing and delivery.',
+      goal: 'One partner, from brief to master.',
     },
   ],
-  positioning: 'We help creators of images and motion give their projects a sonic soul.',
 
-  quotesKicker: 'They trust us',
-  quote1:
-    'Professional, responsive and full of ideas, VOIZ greatly contributed to the quality of the film I directed. I highly recommend them!',
-  quote1Tag: 'Short film',
-  quote1Author: 'David Le Royer',
-  quote1Role: 'Director',
-  quote2: 'VOIZ’s work combines strong emotion with technical subtlety.',
-  quote2Tag: 'Composition',
-  quote2Author: 'Paul Guédon',
-  quote2Role: 'Composer',
+  quotesKicker: 'They trusted us',
+  testimonials: [
+    {
+      quote: 'VOIZ combines efficiency, responsiveness and a solid knowledge of sound.',
+      tag: 'Advertising',
+      author: 'Jordan Vedrenne',
+      role: 'Director',
+    },
+    {
+      quote:
+        'VOIZ is now our ideal sound partner for our shows: artistic sensitivity, musical mastery and technical skill go hand in hand!',
+      tag: 'Live performance',
+      author: 'Kathryn Mederos Syssoyeva',
+      role: 'Stage director',
+    },
+    {
+      quote:
+        'Professional, responsive and full of ideas, VOIZ greatly contributed to the quality of the film I directed. I highly recommend them!',
+      tag: 'Short film',
+      author: 'David Le Royer',
+      role: 'Director',
+    },
+    {
+      quote: 'VOIZ’s work combines strong emotion with technical subtlety.',
+      tag: 'Composition',
+      author: 'Paul Guédon',
+      role: 'Director',
+    },
+  ],
 
-  aboutKicker: 'About',
-  about:
-    'A modern, organic sonic aesthetic · sometimes abrasive, often cinematic. Sounds that breathe, vibrate, distort and tell stories.',
-  aboutLiam:
-    'A sound engineering graduate, Liam Grandsard spent years in the music industry, in the studio and on stage, producing and mixing rap, R&B and pop-rock artists. Since 2023 he has devoted himself to sound for picture. As a child he was already making short films, dreaming of becoming a director · he ended up a sound director. From cloud rap to post-punk, electronics to sound design: an instinctive, immersive approach, always in service of emotion.',
-  aboutLiamQuote:
-    'Make people feel, surprise, move. Raw, emotive, hybrid and alive: that is my sonic universe.',
+  aboutTitle: 'About',
+  aboutVoizTitle: 'VOIZ',
+  aboutVoizLead:
+    'VOIZ is a sound creation and post-production studio dedicated to advertising, film and live performance, based in Nantes.',
+  aboutVoizBody: [
+    'Our approach draws on a background in video directing and a solid grounding in music and sound engineering. That combination lets us understand the intention behind a picture as much as how its sound is made.',
+    'VOIZ has a taste for dark, dramatic, raw and horrific themes: where sound surprises, transforms and leaves its mark.',
+  ],
+  aboutLiamTitle: 'Liam Grandsard',
+  aboutLiamRole: 'Founder',
+  aboutLiamBody: [
+    'A sound engineering graduate, Liam Grandsard started out in the music industry, in the studio and on stage, producing and mixing R&B, rap and pop-rock artists for a Parisian label.',
+    'Before sound, he directed music videos and short films, aiming to become a filmmaker. That visual culture stayed with him when he turned fully to sound post-production in 2023.',
+    'Now a sound designer, mixer and composer, he has developed an approach at the crossroads of raw emotion and technical precision, fed as much by contemporary music as by cinema.',
+    'From hip-hop to post-punk, from orchestral writing to atmospheric and electronic textures, this hybrid culture shapes his sonic identity today.',
+  ],
   portraitAlt: 'Portrait of Liam Grandsard, founder of VOIZ',
 
-  contactTitle: 'Let’s build your sound project today',
+  contactTitle: 'Let’s talk about your project.',
   contactGhost: 'Contact · Contact · Contact',
-  contactSub: 'Clear and professional: tell us about your film, your stage, your universe.',
+  contactSub:
+    'Tell us about your picture, your stage or your world. Together, we’ll shape the right sound approach.',
   fName: 'Name',
   fEmail: 'Email',
-  fProject: 'Project type (ad, film, live…)',
+  fProject: 'Project type',
   fProjectOptions: [
     { value: 'publicite', label: 'Advertising' },
-    { value: 'cinema', label: 'Film · short film' },
+    { value: 'cinema', label: 'Film' },
     { value: 'spectacle', label: 'Live performance' },
+    { value: 'animation', label: '3D / Animation' },
     { value: 'jeux-video', label: 'Video games' },
-    { value: 'musique', label: 'Music · artist' },
-    { value: 'motion', label: 'Motion design · branding' },
+    { value: 'musique', label: 'Music' },
+    { value: 'corporate', label: 'Corporate' },
     { value: 'autre', label: 'Other' },
   ],
   fMessage: 'Message',
@@ -374,6 +433,7 @@ const en: Dictionary = {
   fRequired: 'This field is required.',
   fInvalidEmail: 'Invalid email address.',
 
+  footerTagline: 'Sound creation and post-production agency',
   footerRights: '© 2026 VOIZ · Vortex of Noise',
   footerNav: 'Menu',
   footerSocial: 'Social',

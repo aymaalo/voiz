@@ -7,17 +7,21 @@ import { Nav } from '@/components/sections/Nav';
 import { Projects } from '@/components/sections/Projects';
 import { Marquee } from '@/components/ui/Marquee';
 import { getDictionary, isLocale, LOCALES, otherLocale, type Locale } from '@/content/i18n';
+import { getProjectsForLocale } from '@/lib/projects/data';
 import { homePath, PROJECTS_SLUG, projectsPath } from '@/lib/routes';
 
 /**
  * Only the localised projects slugs resolve here — /fr/projets and /en/projects.
- * Anything else 404s, since dynamicParams is off.
+ * Anything else 404s through resolve() below. (Not `dynamicParams = false`:
+ * with it, Next 16 fails to regenerate these pages after an on-demand
+ * revalidation — NoFallbackError — and keeps serving the stale copy.)
  */
 export function generateStaticParams() {
   return LOCALES.map((lang) => ({ lang, section: PROJECTS_SLUG[lang] }));
 }
 
-export const dynamicParams = false;
+// See [lang]/page.tsx — /admin saves refresh this page immediately.
+export const revalidate = 3600;
 
 function resolve(lang: string, section: string): Locale | null {
   if (!isLocale(lang)) return null;
@@ -55,6 +59,7 @@ export default async function ProjectsPage({
 
   const t = getDictionary(locale);
   const other = otherLocale(locale);
+  const { projects, tags } = await getProjectsForLocale(locale, t);
 
   return (
     <>
@@ -76,12 +81,12 @@ export default async function ProjectsPage({
           <h1 className="mt-6 mb-4 text-[clamp(44px,8vw,110px)] leading-none font-black tracking-[-.04em] uppercase">
             {t.projectsPageTitle}
           </h1>
-          <p className="m-0 max-w-[680px] font-serif text-[20px] text-orange italic md:text-[24px]">
+          <p className="m-0 max-w-[680px] font-serif text-[22px] text-orange md:text-[26px]">
             {t.projectsPageIntro}
           </p>
         </section>
 
-        <Projects locale={locale} t={t} variant="page" />
+        <Projects locale={locale} t={t} projects={projects} tags={tags} variant="page" />
 
         <Marquee words={t.marquee} variant="ivoire" />
         <Contact t={t} locale={locale} />

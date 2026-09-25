@@ -11,7 +11,12 @@ import { Testimonials } from '@/components/sections/Testimonials';
 import { Marquee } from '@/components/ui/Marquee';
 import { getDictionary, isLocale, otherLocale } from '@/content/i18n';
 import { getSiteUrl, site } from '@/content/site';
+import { getProjectsForLocale } from '@/lib/projects/data';
 import { homePath } from '@/lib/routes';
+
+// Projects come from Supabase. Saves in /admin refresh the page immediately;
+// this only picks up edits made straight in the Supabase dashboard.
+export const revalidate = 3600;
 
 export default async function HomePage({ params }: { params: Promise<{ lang: string }> }) {
   const { lang } = await params;
@@ -19,6 +24,7 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
 
   const t = getDictionary(lang);
   const siteUrl = getSiteUrl();
+  const { projects, tags } = await getProjectsForLocale(lang, t, { featuredOnly: true });
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -50,7 +56,7 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
       <main>
         <Hero t={t} />
         <Studio t={t} />
-        <Projects locale={lang} t={t} />
+        <Projects locale={lang} t={t} projects={projects} tags={tags} />
         <Marquee words={t.marquee} variant="ivoire" />
         <Services t={t} />
         <Testimonials t={t} />

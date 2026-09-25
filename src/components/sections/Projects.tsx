@@ -3,24 +3,35 @@
 import Link from 'next/link';
 import { useMemo, useState } from 'react';
 import { ProjectTile } from '@/components/sections/ProjectTile';
+import { VideoLightbox } from '@/components/sections/VideoLightbox';
 import type { Dictionary, Locale } from '@/content/i18n';
-import { projects as allProjects } from '@/content/projects';
+import type { ProjectView, TagView } from '@/lib/projects/types';
 import { projectsPath } from '@/lib/routes';
+
+const ALL = 'all';
 
 type ProjectsProps = {
   locale: Locale;
   t: Dictionary;
-  /** The standalone /projets page drops the section heading and the footer link. */
+  /** Published projects in display order, managed from /admin — featured ones only on home. */
+  projects: ProjectView[];
+  /** Filter pills — only tags used by at least one of `projects`. */
+  tags: TagView[];
+  /** Home is the curated selection, with a "more projects" tab to the full page. */
   variant?: 'home' | 'page';
 };
 
-export function Projects({ locale, t, variant = 'home' }: ProjectsProps) {
-  const [filter, setFilter] = useState('tous');
+export function Projects({ locale, t, projects, tags, variant = 'home' }: ProjectsProps) {
+  const [filter, setFilter] = useState(ALL);
+  const [activeAudioId, setActiveAudioId] = useState<string | null>(null);
+  const [openVideo, setOpenVideo] = useState<ProjectView | null>(null);
 
   const visible = useMemo(
-    () => (filter === 'tous' ? allProjects : allProjects.filter((p) => p.category === filter)),
-    [filter],
+    () => (filter === ALL ? projects : projects.filter((p) => p.tagIds.includes(filter))),
+    [filter, projects],
   );
+
+  const filters = [{ id: ALL, label: t.filterAll }, ...tags];
 
   return (
     <section
@@ -30,72 +41,83 @@ export function Projects({ locale, t, variant = 'home' }: ProjectsProps) {
       }`}
     >
       {variant === 'home' ? (
-        <div data-reveal="" className="mb-10 flex items-baseline gap-4 md:mb-[60px] md:gap-6">
-          <h2 className="m-0 text-[clamp(52px,7vw,110px)] leading-none font-black tracking-[-.04em] uppercase">
-            {t.projTitle}
-          </h2>
-          <span className="font-serif text-[clamp(22px,2.6vw,34px)] text-orange italic">
-            {t.projCount}
-          </span>
+        <h2
+          data-reveal=""
+          className="m-0 mb-10 text-[clamp(52px,7vw,110px)] leading-none font-black tracking-[-.04em] uppercase md:mb-[60px]"
+        >
+          {t.projTitle}
+        </h2>
+      ) : null}
+
+      {tags.length > 0 || variant === 'home' ? (
+        <div data-reveal="" className="mb-8 flex flex-wrap gap-[10px] md:mb-10">
+          {tags.length > 0 ? (
+            <div role="group" aria-label={t.filterAria} className="contents">
+              {filters.map((f) => {
+                const active = f.id === filter;
+                return (
+                  <button
+                    key={f.id}
+                    type="button"
+                    onClick={() => setFilter(f.id)}
+                    aria-pressed={active}
+                    className={`cursor-pointer rounded-full px-[18px] py-2 text-[12px] tracking-[.12em] uppercase transition hover:-translate-y-[2px] active:scale-95 ${
+                      active
+                        ? 'bg-orange font-bold text-noir'
+                        : 'border border-anthracite font-semibold hover:border-orange hover:text-orange'
+                    }`}
+                  >
+                    {f.label}
+                  </button>
+                );
+              })}
+            </div>
+          ) : null}
+
+          {/* The rest of the catalogue lives on its own page, not in the selection. */}
+          {variant === 'home' ? (
+            <Link
+              href={projectsPath(locale)}
+              className="group rounded-full border border-dashed border-ivoire/40 px-[18px] py-2 text-[12px] font-semibold tracking-[.12em] uppercase transition hover:-translate-y-[2px] hover:border-orange hover:text-orange"
+            >
+              {t.projMore}{' '}
+              <span
+                aria-hidden="true"
+                className="inline-block transition-transform duration-300 group-hover:translate-x-1"
+              >
+                →
+              </span>
+            </Link>
+          ) : null}
         </div>
       ) : null}
 
-      <div
-        role="group"
-        aria-label={t.filterAria}
-        data-reveal=""
-        className="mb-8 flex flex-wrap gap-[10px] md:mb-10"
-      >
-        {t.filters.map((f) => {
-          const active = f.id === filter;
-          return (
-            <button
-              key={f.id}
-              type="button"
-              onClick={() => setFilter(f.id)}
-              aria-pressed={active}
-              className={`cursor-pointer rounded-full px-[18px] py-2 text-[12px] tracking-[.12em] uppercase transition hover:-translate-y-[2px] active:scale-95 ${
-                active
-                  ? 'bg-orange font-bold text-noir'
-                  : 'border border-anthracite font-semibold hover:border-orange hover:text-orange'
-              }`}
-            >
-              {f.label}
-            </button>
-          );
-        })}
-      </div>
-
       {visible.length > 0 ? (
-        <div className="vz-grid" data-filtered={filter !== 'tous'}>
+        <div className="vz-grid">
           {visible.map((p, i) => (
             <ProjectTile
               key={p.id}
               project={p}
-              locale={locale}
               t={t}
               priority={i === 0}
-              revealDelay={(i % 4) * 80}
+              revealDelay={(i % 3) * 80}
+              activeAudioId={activeAudioId}
+              onPlayAudio={setActiveAudioId}
+              onOpenVideo={(project) => {
+                // Only one thing plays at a time.
+                setActiveAudioId(null);
+                setOpenVideo(project);
+              }}
             />
           ))}
         </div>
       ) : (
-        <p className="py-20 text-center text-muted">{t.projEmpty}</p>
+        <p className="py-20 text-center text-muted">
+          {projects.length > 0 ? t.projEmpty : t.projNone}
+        </p>
       )}
 
-      {variant === 'home' ? (
-        <div data-reveal="" className="mt-[50px] flex justify-center md:mt-[70px]">
-          <Link
-            href={projectsPath(locale)}
-            className="group border-b border-orange font-serif text-[24px] text-orange italic transition-colors hover:text-ivoire md:text-[30px]"
-          >
-            {t.projAll}{' '}
-            <span className="inline-block transition-transform duration-300 group-hover:translate-x-2">
-              →
-            </span>
-          </Link>
-        </div>
-      ) : null}
+      <VideoLightbox project={openVideo} tags={tags} t={t} onClose={() => setOpenVideo(null)} />
     </section>
   );
 }

@@ -5,7 +5,7 @@ export default function NotFound() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center gap-8 px-6 text-center">
       <Logo className="h-16 w-auto text-ivoire" />
-      <p className="m-0 font-serif text-[clamp(28px,6vw,52px)] text-orange italic">
+      <p className="m-0 font-serif text-[clamp(30px,6.4vw,56px)] text-orange">
         404 · page introuvable
       </p>
       <p className="m-0 max-w-[420px] text-[15px] text-muted">

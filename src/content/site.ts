@@ -6,17 +6,40 @@ export const site = {
   name: 'VOIZ',
   fullName: 'VOIZ · Vortex of Noise',
   founder: 'Liam Grandsard',
+  /** Brand line under "Vortex of Noise" in the hero. English in both locales. */
+  slogan: 'Turning noise into sounds people remember',
+
+  /**
+   * Photos from the V2 feedback, web-sized copies (full-resolution originals are
+   * in "VOIZ - SITE WEB DOSSIER/SOURCES V2", outside the build). An empty path
+   * simply leaves the photo out, so the section still reads cleanly without it.
+   */
+  photos: {
+    /** Photo 1 — studio presentation, full height on the right, fading into black. */
+    studio: '/images/studio.jpg',
+    /** Photo 2 — dimmed background behind the testimonials. */
+    testimonials: '/images/testimonials.jpg',
+    /** Photo 3 — Liam's portrait in About. */
+    founder: { src: '/images/liam-grandsard.jpg', width: 1000, height: 1478 },
+    /** Photo 4 — duotone texture behind the contact heading. */
+    contact: '/images/contact.jpg',
+  },
+
+  /**
+   * Hero background. /media is served with a one-year immutable cache, so a new
+   * cut must get a new file name (showreel-v2.mp4), never overwrite this one.
+   */
+  heroVideo: { src: '/media/showreel-v1.mp4', poster: '/media/showreel-v1-poster.jpg' },
 
   /** Public inbox shown to visitors. Leave empty to hide the mailto fallback. */
-  email: '',
+  email: 'hello@voizaudio.com',
 
-  /** TODO(client): real profile URLs. Empty string renders as plain text, not a dead link. */
+  /** Empty href renders as plain text, not a dead link. */
   social: [
-    { label: 'Instagram', href: '' },
-    { label: 'LinkedIn', href: '' },
-    { label: 'SoundCloud', href: '' },
-    { label: 'TikTok', href: '' },
-  ],
+    { label: 'Instagram', href: 'https://www.instagram.com/voiz.audio/' },
+    { label: 'LinkedIn', href: 'https://www.linkedin.com/in/liam-grandsard-5974b627b/' },
+    { label: 'TikTok', href: 'https://www.tiktok.com/@voizaudio' },
+  ] as readonly { label: string; href: string }[],
 } as const;
 
 /**
