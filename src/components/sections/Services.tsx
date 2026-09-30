@@ -40,7 +40,7 @@ export function Services({ t }: { t: Dictionary }) {
       >
         {t.services.map((s, i) => (
           <ServiceCard
-            key={s.name}
+            key={i}
             service={s}
             index={i}
             open={open === i}

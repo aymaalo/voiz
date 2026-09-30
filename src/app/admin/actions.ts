@@ -4,9 +4,20 @@ import { revalidatePath, updateTag } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { z } from 'zod';
 import { getAdminSession, LOGIN_PATH, requireAdmin } from '@/lib/admin/auth';
+import { CONTENT_CACHE_TAG } from '@/lib/content/data';
+import {
+  fieldId,
+  fieldSchema,
+  getSection,
+  PHOTO_BUCKET,
+  photoObjectPath,
+  type ContentValue,
+  type PhotoField,
+} from '@/lib/content/fields';
 import { PROJECT_SERVICE_IDS } from '@/lib/projects/services';
 import { PROJECTS_CACHE_TAG } from '@/lib/projects/types';
 import { parseSoundCloudUrl } from '@/lib/soundcloud';
+import type { Json } from '@/lib/supabase/database.types';
 import { parseDuration, parseYouTubeId, youTubeThumbnailUrl, youTubeWatchUrl } from '@/lib/youtube';
 
 export type FormState = {
@@ -507,4 +518,71 @@ export async function moveTag(formData: FormData) {
     ),
   );
   contentChanged();
+}
+
+// ---------------------------------------------------------------------------
+// Site content — texts and photos
+// ---------------------------------------------------------------------------
+
+/** Keyed by the full path ("services.2.name.fr"), so nested fields get their own message. */
+function errorsByPath(error: z.ZodError): FormState['fieldErrors'] {
+  const errors: Record<string, string> = {};
+  for (const issue of error.issues) errors[issue.path.join('.')] ??= issue.message;
+  return errors;
+}
+
+/**
+ * Saves one section of /admin/content. The form posts the whole section as
+ * JSON, validated field by field against the same schemas the site reads with.
+ */
+export async function saveContent(_prev: FormState, formData: FormData): Promise<FormState> {
+  const { supabase } = await requireAdmin();
+
+  const section = getSection(String(formData.get('section') ?? ''));
+  if (!section) return { error: GENERIC_ERROR };
+
+  let payload: unknown;
+  try {
+    payload = JSON.parse(String(formData.get('payload') ?? ''));
+  } catch {
+    return { error: GENERIC_ERROR };
+  }
+
+  const schema = z.object(
+    Object.fromEntries(section.fields.map((field) => [fieldId(field), fieldSchema(field)])),
+  );
+  const parsed = schema.safeParse(payload);
+  if (!parsed.success) {
+    return { error: 'Certains champs sont à corriger.', fieldErrors: errorsByPath(parsed.error) };
+  }
+  const values = parsed.data as Record<string, ContentValue>;
+
+  const { error } = await supabase
+    .from('site_content')
+    .upsert(section.fields.map((field) => ({ key: fieldId(field), value: values[fieldId(field)] as Json })));
+  if (error) return { error: GENERIC_ERROR };
+
+  const photos = section.fields.filter((field): field is PhotoField => field.type === 'photo');
+  await Promise.all(
+    photos.map((field) => removeUnusedPhotos(supabase, field, values[fieldId(field)] as { src: string } | null)),
+  );
+
+  updateTag(CONTENT_CACHE_TAG);
+  revalidatePath('/admin', 'layout');
+  return { ok: true };
+}
+
+/**
+ * Each photo slot has its own folder in the bucket. Once a slot is saved,
+ * everything else in its folder — the replaced photo, uploads that were never
+ * saved — is dropped. Best effort: a leftover file costs storage, nothing more.
+ */
+async function removeUnusedPhotos(supabase: Supabase, field: PhotoField, current: { src: string } | null) {
+  const bucket = supabase.storage.from(PHOTO_BUCKET);
+  const { data: files, error } = await bucket.list(field.key, { limit: 100 });
+  if (error || !files) return;
+
+  const keep = current ? photoObjectPath(current.src) : null;
+  const stale = files.map((file) => `${field.key}/${file.name}`).filter((path) => path !== keep);
+  if (stale.length) await bucket.remove(stale);
 }

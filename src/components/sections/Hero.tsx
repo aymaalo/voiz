@@ -4,9 +4,9 @@ import { useEffect, useRef } from 'react';
 import { Equalizer } from '@/components/ui/Equalizer';
 import { Marquee } from '@/components/ui/Marquee';
 import type { Dictionary } from '@/content/i18n';
-import { site } from '@/content/site';
+import { heroVideo, type SiteContent } from '@/content/site';
 
-export function Hero({ t }: { t: Dictionary }) {
+export function Hero({ t, site }: { t: Dictionary; site: SiteContent }) {
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
@@ -25,7 +25,7 @@ export function Hero({ t }: { t: Dictionary }) {
     // some Chromium builds need the property set before play() is called.
     v.muted = true;
     v.defaultMuted = true;
-    v.src = site.heroVideo.src;
+    v.src = heroVideo.src;
     void v.play().catch(() => {
       /* Autoplay blocked: the poster still reads fine. */
     });
@@ -37,7 +37,7 @@ export function Hero({ t }: { t: Dictionary }) {
           data-saver checks, so the file is never fetched when not played. */}
       <video
         ref={videoRef}
-        poster={site.heroVideo.poster}
+        poster={heroVideo.poster}
         muted
         loop
         playsInline

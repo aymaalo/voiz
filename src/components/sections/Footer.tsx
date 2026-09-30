@@ -1,18 +1,19 @@
 import { Logo } from '@/components/brand/Logo';
 import type { Dictionary } from '@/content/i18n';
-import { site } from '@/content/site';
+import type { SiteContent } from '@/content/site';
 import { LogoShape } from '../brand/LogoShape';
 import { LogoText } from '../brand/LogoText';
 
 type FooterProps = {
   t: Dictionary;
+  site: SiteContent;
   /** On the projects page the section anchors have to point back at the home page. */
   anchorBase?: string;
 };
 
 const LINK = 'w-fit text-[14px] text-muted transition hover:translate-x-1 hover:text-orange';
 
-export function Footer({ t, anchorBase = '' }: FooterProps) {
+export function Footer({ t, site, anchorBase = '' }: FooterProps) {
   const nav = [
     { href: `${anchorBase}#projets`, label: t.navProjects },
     { href: `${anchorBase}#services`, label: t.navServices },
@@ -48,10 +49,10 @@ export function Footer({ t, anchorBase = '' }: FooterProps) {
         </FooterCol>
 
         <FooterCol title={t.footerSocial}>
-          {site.social.map((s) =>
+          {site.social.map((s, i) =>
             s.href ? (
               <a
-                key={s.label}
+                key={i}
                 href={s.href}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -61,7 +62,7 @@ export function Footer({ t, anchorBase = '' }: FooterProps) {
               </a>
             ) : (
               // No URL supplied yet — render the label rather than a dead link.
-              <span key={s.label} className="w-fit text-[14px] text-muted opacity-60">
+              <span key={i} className="w-fit text-[14px] text-muted opacity-60">
                 {s.label}
               </span>
             ),

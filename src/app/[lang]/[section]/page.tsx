@@ -6,7 +6,8 @@ import { Footer } from '@/components/sections/Footer';
 import { Nav } from '@/components/sections/Nav';
 import { Projects } from '@/components/sections/Projects';
 import { Marquee } from '@/components/ui/Marquee';
-import { getDictionary, isLocale, LOCALES, otherLocale, type Locale } from '@/content/i18n';
+import { isLocale, LOCALES, otherLocale, type Locale } from '@/content/i18n';
+import { getContent } from '@/lib/content/data';
 import { getProjectsForLocale } from '@/lib/projects/data';
 import { homePath, PROJECTS_SLUG, projectsPath } from '@/lib/routes';
 
@@ -37,7 +38,7 @@ export async function generateMetadata({
   const locale = resolve(lang, section);
   if (!locale) return {};
 
-  const t = getDictionary(locale);
+  const { t } = await getContent(locale);
   return {
     title: t.projectsPageTitle,
     description: t.projectsPageIntro,
@@ -57,7 +58,7 @@ export default async function ProjectsPage({
   const locale = resolve(lang, section);
   if (!locale) notFound();
 
-  const t = getDictionary(locale);
+  const { t, site } = await getContent(locale);
   const other = otherLocale(locale);
   const { projects, tags } = await getProjectsForLocale(locale, t);
 
@@ -89,10 +90,10 @@ export default async function ProjectsPage({
         <Projects locale={locale} t={t} projects={projects} tags={tags} variant="page" />
 
         <Marquee words={t.marquee} variant="ivoire" />
-        <Contact t={t} locale={locale} />
+        <Contact t={t} locale={locale} site={site} />
       </main>
 
-      <Footer t={t} anchorBase={homePath(locale)} />
+      <Footer t={t} site={site} anchorBase={homePath(locale)} />
     </>
   );
 }

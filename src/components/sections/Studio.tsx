@@ -1,12 +1,12 @@
 import Image from 'next/image';
 import type { Dictionary } from '@/content/i18n';
-import { site } from '@/content/site';
+import type { SiteContent } from '@/content/site';
 
-export function Studio({ t }: { t: Dictionary }) {
-  const photo: string = site.photos.studio;
+export function Studio({ t, site }: { t: Dictionary; site: SiteContent }) {
+  const photo = site.photos.studio;
 
   return (
-    <section className="relative overflow-hidden">
+    <section id="studio" className="relative overflow-hidden">
       {/* Photo 1: stacked above the text on small screens; on desktop it takes
           the right half at full height and melts into the black on its left,
           so it never sits under the copy. */}
@@ -15,7 +15,7 @@ export function Studio({ t }: { t: Dictionary }) {
       {photo ? (
         <div className="vz-fade-studio relative h-[280px] md:absolute md:inset-y-0 md:right-0 md:h-auto md:w-[58%]">
           <Image
-            src={photo}
+            src={photo.src}
             alt={t.studioPhotoAlt}
             fill
             sizes="(max-width: 768px) 100vw, 58vw"
@@ -32,7 +32,10 @@ export function Studio({ t }: { t: Dictionary }) {
           >
             {/* Instrument Serif has a far smaller x-height than Inter, so the
                 inline accent is scaled up to sit optically level with it. */}
-            {t.pitchA} <span className="font-serif text-[1.12em] text-orange">{t.pitchB}</span>{' '}
+            {t.pitchA}{' '}
+            {t.pitchB ? (
+              <span className="font-serif text-[1.12em] text-orange">{t.pitchB}</span>
+            ) : null}{' '}
             {t.pitchC}
           </p>
 
@@ -41,8 +44,8 @@ export function Studio({ t }: { t: Dictionary }) {
             style={{ '--reveal-delay': '120ms' } as React.CSSProperties}
             className="mt-8 flex max-w-[560px] flex-col gap-4 md:mt-10"
           >
-            {t.pitchBody.map((p) => (
-              <p key={p} className="m-0 text-[16px] leading-[1.7] text-ivoire/75 text-pretty md:text-[17px]">
+            {t.pitchBody.map((p, i) => (
+              <p key={i} className="m-0 text-[16px] leading-[1.7] text-ivoire/75 text-pretty md:text-[17px]">
                 {p}
               </p>
             ))}

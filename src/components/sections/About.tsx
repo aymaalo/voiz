@@ -1,12 +1,14 @@
 import Image from 'next/image';
 import type { Dictionary } from '@/content/i18n';
-import { site } from '@/content/site';
+import type { SiteContent } from '@/content/site';
 
 const BODY = 'm-0 text-[15px] leading-[1.75] text-muted text-pretty md:text-[16px]';
 const BLOCK_TITLE =
   'm-0 text-[clamp(28px,4vw,44px)] leading-[1] font-black tracking-[-.03em] uppercase';
 
-export function About({ t }: { t: Dictionary }) {
+export function About({ t, site }: { t: Dictionary; site: SiteContent }) {
+  const portrait = site.photos.founder;
+
   return (
     <section
       id="about"
@@ -34,8 +36,8 @@ export function About({ t }: { t: Dictionary }) {
 
           {/* Two parallel notes rather than one long lane. */}
           <div className="mt-7 grid grid-cols-1 gap-x-12 gap-y-5 md:mt-8 md:grid-cols-2">
-            {t.aboutVoizBody.map((p) => (
-              <p key={p} className={BODY}>
+            {t.aboutVoizBody.map((p, i) => (
+              <p key={i} className={BODY}>
                 {p}
               </p>
             ))}
@@ -66,30 +68,36 @@ export function About({ t }: { t: Dictionary }) {
       <article
         data-reveal=""
         style={{ '--reveal-delay': '120ms' } as React.CSSProperties}
-        className="mt-[90px] grid grid-cols-1 items-start gap-9 md:mt-[130px] md:grid-cols-[minmax(0,340px)_minmax(0,1fr)] md:gap-16"
+        className={`mt-[90px] grid grid-cols-1 items-start gap-9 md:mt-[130px] md:gap-16 ${
+          portrait ? 'md:grid-cols-[minmax(0,340px)_minmax(0,1fr)]' : ''
+        }`}
       >
-        <div className="relative max-w-[300px] overflow-hidden rounded-[6px] md:max-w-none">
-          <Image
-            src={site.photos.founder.src}
-            alt={t.portraitAlt}
-            width={site.photos.founder.width}
-            height={site.photos.founder.height}
-            sizes="(max-width: 768px) 300px, 340px"
-            className="h-auto w-full"
-          />
-        </div>
+        {portrait ? (
+          <div className="relative max-w-[300px] overflow-hidden rounded-[6px] md:max-w-none">
+            <Image
+              src={portrait.src}
+              alt={t.portraitAlt}
+              width={portrait.width}
+              height={portrait.height}
+              sizes="(max-width: 768px) 300px, 340px"
+              className="h-auto w-full"
+            />
+          </div>
+        ) : null}
 
         <div className="max-w-[640px] md:pt-2">
           <h3 className={BLOCK_TITLE}>{t.aboutLiamTitle}</h3>
-          <div className="mt-3 text-[11px] font-bold tracking-[.26em] text-orange uppercase">
-            {t.aboutLiamRole}
-          </div>
+          {t.aboutLiamRole ? (
+            <div className="mt-3 text-[11px] font-bold tracking-[.26em] text-orange uppercase">
+              {t.aboutLiamRole}
+            </div>
+          ) : null}
 
           {/* gap, not space-y: the paragraphs' own m-0 wins over space-y's
               margin and the gaps collapse. */}
           <div className="mt-6 flex flex-col gap-[18px] md:mt-7">
-            {t.aboutLiamBody.map((p) => (
-              <p key={p} className={BODY}>
+            {t.aboutLiamBody.map((p, i) => (
+              <p key={i} className={BODY}>
                 {p}
               </p>
             ))}

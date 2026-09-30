@@ -28,13 +28,18 @@ supabase db push                            # applies supabase/migrations/
 ```
 
 Alternative without the CLI: open the project's **SQL editor**, paste the contents
-of `supabase/migrations/20260913134458_projects_backoffice.sql`, and run it.
+of each file in `supabase/migrations/`, in name order, and run it.
 
 This creates the `projects`, `tags`, `project_tags` and `admins` tables, the
 row-level security policies, and the 7 starting categories, in filter order:
 Publicité, Cinéma, Spectacle vivant, 3D / Animation (the home page tabs), then
 Jeux vidéo, Musique, Corporate (projects page only, as long as no featured
 project uses them).
+
+The second migration (`…_site_content.sql`) adds the `site_content` table (texts
+and photos edited in **Contenu**) and the public `site-images` Storage bucket the
+photos are uploaded to. Until it is applied the site simply shows the texts
+written in the code.
 
 ## 3. Authentication settings
 
@@ -86,6 +91,13 @@ cron is harmless.
 - What they can do: add/edit/reorder/hide/delete projects, choose which ones are
   **mis en avant sur l’accueil** (★ Accueil), manage categories (which become the
   filter tabs), change their password.
+- **Contenu:** every text of the site in French and English (hero, studio
+  presentation, services, testimonials, about, contact, footer, SEO title and
+  description), the four photos (studio, testimonials background, portrait,
+  contact background), the public email and the social links. Services,
+  testimonials and social links can be added, removed and reordered. Each field
+  has a "Texte d’origine" link that brings back the text written in the code.
+  An empty English field shows the French text.
 - Each project: name (FR/EN), client, categories, services (Sound Direction,
   Sound Design, Original Music, Foley, Dialogue Editing, Mix, Mastering), a short
   description (hidden behind "En savoir plus" on the site), and its media:
@@ -109,6 +121,8 @@ cron is harmless.
 - [ ] "En savoir plus" reveals the description; Services open on hover (tap on mobile)
 - [ ] `/en/projects` shows English titles (or French when English is empty)
 - [ ] Vercel → *Settings → Cron Jobs* lists `/api/keep-alive`
+- [ ] **Contenu → Haut de page:** change the accroche, save — `/fr` shows it right away
+- [ ] **Contenu → À propos:** replace the portrait — it appears on the site after saving
 
 ---
 
@@ -120,9 +134,11 @@ cron is harmless.
   pages; only saving in `/admin` stops working.
 - **The 8 old placeholder projects were removed** (they had no YouTube links).
   Until projects are added, the section reads "Nos projets arrivent très bientôt."
-- **Photos and showreel** are in `public/` as web-sized copies (originals in
-  `VOIZ - SITE WEB DOSSIER/SOURCES V2/`). Paths live in `src/content/site.ts`.
-  A new showreel must get a new file name (`showreel-v2.mp4`) — `/media` is
+- **Default photos and showreel** are in `public/` as web-sized copies (originals
+  in `VOIZ - SITE WEB DOSSIER/SOURCES V2/`). Paths live in `src/content/site.ts`.
+  Photos replaced from **Contenu** go to the `site-images` bucket (10 MB max,
+  JPEG/PNG/WebP/AVIF); saving a section deletes the slot's older files. A new
+  showreel must get a new file name (`showreel-v2.mp4`) — `/media` is
   cached for a year. See the README for the encoding settings.
 - **The players must stay visible.** YouTube's API policies forbid hidden or
   audio-only playback, which is why audio tiles swap in the real player.

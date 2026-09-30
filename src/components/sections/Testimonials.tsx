@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import type { Dictionary } from '@/content/i18n';
-import { site } from '@/content/site';
+import type { SiteContent } from '@/content/site';
 
 /** Per-card tilt and vertical offset — the scattered-polaroid look the brand
  *  asked to keep here. Two columns: the right-hand card of each row drops. */
@@ -11,11 +11,11 @@ const LOOK = [
   { tilt: '-0.9deg', shift: '38px', reveal: 'right' },
 ] as const;
 
-export function Testimonials({ t }: { t: Dictionary }) {
-  const photo: string = site.photos.testimonials;
+export function Testimonials({ t, site }: { t: Dictionary; site: SiteContent }) {
+  const photo = site.photos.testimonials;
 
   return (
-    <section className="relative overflow-hidden px-5 py-[100px] md:px-10 md:py-[140px]">
+    <section id="temoignages" className="relative overflow-hidden px-5 py-[100px] md:px-10 md:py-[140px]">
       {/* Photo 2, dimmed well back and faded into the page at both edges so the
           cards stay the subject. */}
       {photo ? (
@@ -23,7 +23,7 @@ export function Testimonials({ t }: { t: Dictionary }) {
           aria-hidden="true"
           className="absolute inset-0 [mask-image:linear-gradient(180deg,transparent_0%,#000_22%,#000_78%,transparent_100%)]"
         >
-          <Image src={photo} alt="" fill sizes="100vw" className="object-cover opacity-25" />
+          <Image src={photo.src} alt="" fill sizes="100vw" className="object-cover opacity-25" />
         </div>
       ) : null}
 
@@ -50,7 +50,7 @@ export function Testimonials({ t }: { t: Dictionary }) {
 
             return (
               <figure
-                key={q.author}
+                key={i}
                 data-reveal={look.reveal}
                 style={style}
                 className={`relative m-0 flex flex-col gap-[22px] rounded-[6px] p-8 transition-transform duration-300 [transform:rotate(var(--tilt))] hover:[transform:rotate(0deg)] md:px-9 md:py-10 md:[transform:rotate(var(--tilt))_translateY(var(--shift))] md:hover:[transform:rotate(0deg)_translateY(var(--shift))] ${

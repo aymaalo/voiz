@@ -12,9 +12,9 @@ export function otherLocale(locale: Locale): Locale {
 }
 
 /** `lead` is always visible; `detail` and `goal` open on hover / tap — see Services. */
-type Service = { name: string; lead: string; detail: string; goal: string };
+export type Service = { name: string; lead: string; detail: string; goal: string };
 
-type Testimonial = { quote: string; tag: string; author: string; role: string };
+export type Testimonial = { quote: string; tag: string; author: string; role: string };
 
 export type Dictionary = {
   /* meta */
@@ -443,6 +443,10 @@ const en: Dictionary = {
 
 const dictionaries: Record<Locale, Dictionary> = { fr, en };
 
+/**
+ * The texts as written in the code. The site renders them merged with what was
+ * saved in /admin/content — see getContent() in src/lib/content/data.ts.
+ */
 export function getDictionary(locale: Locale): Dictionary {
   return dictionaries[locale];
 }

@@ -1,5 +1,6 @@
 import { ImageResponse } from 'next/og';
-import { getDictionary, isLocale, LOCALES } from '@/content/i18n';
+import { isLocale, LOCALES } from '@/content/i18n';
+import { getContent } from '@/lib/content/data';
 
 export const alt = 'VOIZ · Vortex of Noise';
 export const size = { width: 1200, height: 630 };
@@ -31,7 +32,7 @@ async function loadInter(weight: number): Promise<ArrayBuffer | null> {
 
 export default async function OpengraphImage({ params }: { params: Promise<{ lang: string }> }) {
   const { lang } = await params;
-  const t = getDictionary(isLocale(lang) ? lang : 'fr');
+  const { t } = await getContent(isLocale(lang) ? lang : 'fr');
 
   const [black, regular] = await Promise.all([loadInter(900), loadInter(400)]);
   const fonts = [

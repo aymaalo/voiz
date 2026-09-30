@@ -3,14 +3,14 @@
 import Image from 'next/image';
 import { useState } from 'react';
 import type { Dictionary, Locale } from '@/content/i18n';
-import { site } from '@/content/site';
+import type { SiteContent } from '@/content/site';
 
 type Status = 'idle' | 'sending' | 'sent' | 'error';
 
 const FIELD =
   'w-full min-w-0 rounded-[4px] border border-noir/35 bg-ivoire px-4 py-[15px] text-[15px] text-noir placeholder:text-noir/65 focus-visible:outline-offset-1';
 
-export function Contact({ t, locale }: { t: Dictionary; locale: Locale }) {
+export function Contact({ t, locale, site }: { t: Dictionary; locale: Locale; site: SiteContent }) {
   const [status, setStatus] = useState<Status>('idle');
   const [errors, setErrors] = useState<Record<string, string>>({});
 
@@ -52,7 +52,7 @@ export function Contact({ t, locale }: { t: Dictionary; locale: Locale }) {
           className="pointer-events-none absolute inset-0 [mask-image:linear-gradient(180deg,#000_0%,#000_40%,transparent_85%)] md:[mask-image:linear-gradient(90deg,#000_0%,#000_35%,transparent_70%)]"
         >
           <Image
-            src={site.photos.contact}
+            src={site.photos.contact.src}
             alt=""
             fill
             sizes="(max-width: 768px) 100vw, 70vw"

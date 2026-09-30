@@ -4,6 +4,7 @@ import { FilmGrain, LivingBackground } from '@/components/ui/BackgroundFX';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
 import { getDictionary, isLocale, LOCALES, type Locale } from '@/content/i18n';
 import { getSiteUrl } from '@/content/site';
+import { getContent } from '@/lib/content/data';
 import { instrumentSerif, inter } from '../fonts';
 import '../globals.css';
 
@@ -19,7 +20,7 @@ export async function generateMetadata({
   const { lang } = await params;
   if (!isLocale(lang)) return {};
 
-  const t = getDictionary(lang);
+  const { t } = await getContent(lang);
   const siteUrl = getSiteUrl();
 
   return {
