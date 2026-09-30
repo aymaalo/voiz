@@ -5,6 +5,8 @@ import { ScrollReveal } from '@/components/ui/ScrollReveal';
 import { getDictionary, isLocale, LOCALES, type Locale } from '@/content/i18n';
 import { getSiteUrl } from '@/content/site';
 import { getContent } from '@/lib/content/data';
+import { homePath } from '@/lib/routes';
+import { pageMetadata } from '@/lib/seo';
 import { instrumentSerif, inter } from '../fonts';
 import '../globals.css';
 
@@ -21,25 +23,17 @@ export async function generateMetadata({
   if (!isLocale(lang)) return {};
 
   const { t } = await getContent(lang);
-  const siteUrl = getSiteUrl();
 
+  // The home page's tags; the projects page replaces them with its own.
   return {
-    metadataBase: new URL(siteUrl),
-    title: { default: t.metaTitle, template: `%s · VOIZ` },
-    description: t.metaDescription,
-    alternates: {
-      canonical: `/${lang}`,
-      languages: { fr: '/fr', en: '/en', 'x-default': '/fr' },
-    },
-    openGraph: {
-      type: 'website',
-      siteName: 'VOIZ · Vortex of Noise',
-      locale: lang === 'fr' ? 'fr_FR' : 'en_GB',
-      title: t.metaTitle,
+    metadataBase: new URL(getSiteUrl()),
+    ...pageMetadata({
+      locale: lang,
+      path: homePath,
+      title: { absolute: t.metaTitle },
       description: t.metaDescription,
-      url: `/${lang}`,
-    },
-    twitter: { card: 'summary_large_image', title: t.metaTitle, description: t.metaDescription },
+    }),
+    title: { default: t.metaTitle, template: `%s · VOIZ` },
     robots: { index: true, follow: true },
   };
 }

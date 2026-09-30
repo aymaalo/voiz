@@ -27,6 +27,8 @@ export const site = {
   name: 'VOIZ',
   fullName: 'VOIZ · Vortex of Noise',
   founder: 'Liam Grandsard',
+  /** For search engines' local results; the studio has no public street address. */
+  address: { locality: 'Nantes', region: 'Pays de la Loire', country: 'FR' },
   slogan: 'Turning noise into sounds people remember',
 
   /**

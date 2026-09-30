@@ -363,20 +363,36 @@ export const CONTENT_SECTIONS: ContentSection[] = [
   {
     id: 'referencement',
     title: 'Référencement',
-    description: 'Le titre et la description que montrent Google et les aperçus de liens partagés.',
+    description:
+      'Les titres et descriptions que montrent Google et les aperçus de liens partagés, pour l’accueil et la page Projets.',
     anchor: '',
     fields: [
       {
         type: 'text',
         key: 'metaTitle',
-        label: 'Titre du site',
+        label: 'Accueil — titre',
         hint: 'Environ 60 caractères au plus, au-delà Google le coupe.',
         max: 90,
       },
       {
         type: 'text',
         key: 'metaDescription',
-        label: 'Description',
+        label: 'Accueil — description',
+        hint: 'Environ 155 caractères au plus.',
+        max: 300,
+        multiline: true,
+      },
+      {
+        type: 'text',
+        key: 'projectsMetaTitle',
+        label: 'Page Projets — titre',
+        hint: 'Suivi de « · VOIZ » dans Google. Environ 55 caractères au plus.',
+        max: 90,
+      },
+      {
+        type: 'text',
+        key: 'projectsMetaDescription',
+        label: 'Page Projets — description',
         hint: 'Environ 155 caractères au plus.',
         max: 300,
         multiline: true,

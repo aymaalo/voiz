@@ -61,6 +61,9 @@ export type Dictionary = {
   filterAria: string;
   projectsPageTitle: string;
   projectsPageIntro: string;
+  /** Search results and link previews for the projects page. */
+  projectsMetaTitle: string;
+  projectsMetaDescription: string;
   backHome: string;
 
   /* services */
@@ -158,6 +161,9 @@ const fr: Dictionary = {
   filterAria: 'Filtrer les projets par catégorie',
   projectsPageTitle: 'Projets',
   projectsPageIntro: 'Retrouvez une sélection plus vaste de nos réalisations.',
+  projectsMetaTitle: 'Projets — sound design, musique originale et mixage',
+  projectsMetaDescription:
+    'Cinéma, publicité, spectacle vivant, animation : une sélection de projets sonorisés par VOIZ, studio de création sonore et de post-production audio basé à Nantes.',
   backHome: 'Retour à l’accueil',
 
   servTitle: 'Services',
@@ -325,6 +331,9 @@ const en: Dictionary = {
   filterAria: 'Filter projects by category',
   projectsPageTitle: 'Projects',
   projectsPageIntro: 'Explore a wider selection of our work.',
+  projectsMetaTitle: 'Projects — sound design, original music and mixing',
+  projectsMetaDescription:
+    'Film, advertising, live performance, animation: a selection of projects crafted by VOIZ, a sound creation and audio post-production studio based in Nantes, France.',
   backHome: 'Back home',
 
   servTitle: 'Services',

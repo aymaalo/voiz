@@ -5,11 +5,13 @@ import { Contact } from '@/components/sections/Contact';
 import { Footer } from '@/components/sections/Footer';
 import { Nav } from '@/components/sections/Nav';
 import { Projects } from '@/components/sections/Projects';
+import { JsonLd } from '@/components/seo/JsonLd';
 import { Marquee } from '@/components/ui/Marquee';
 import { isLocale, LOCALES, otherLocale, type Locale } from '@/content/i18n';
 import { getContent } from '@/lib/content/data';
 import { getProjectsForLocale } from '@/lib/projects/data';
 import { homePath, PROJECTS_SLUG, projectsPath } from '@/lib/routes';
+import { pageMetadata, projectsJsonLd } from '@/lib/seo';
 
 /**
  * Only the localised projects slugs resolve here — /fr/projets and /en/projects.
@@ -39,14 +41,12 @@ export async function generateMetadata({
   if (!locale) return {};
 
   const { t } = await getContent(locale);
-  return {
-    title: t.projectsPageTitle,
-    description: t.projectsPageIntro,
-    alternates: {
-      canonical: projectsPath(locale),
-      languages: { fr: projectsPath('fr'), en: projectsPath('en'), 'x-default': projectsPath('fr') },
-    },
-  };
+  return pageMetadata({
+    locale,
+    path: projectsPath,
+    title: t.projectsMetaTitle,
+    description: t.projectsMetaDescription,
+  });
 }
 
 export default async function ProjectsPage({
@@ -64,6 +64,8 @@ export default async function ProjectsPage({
 
   return (
     <>
+      <JsonLd data={projectsJsonLd(locale, t, projects)} />
+
       <Nav
         locale={locale}
         t={t}
