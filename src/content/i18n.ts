@@ -267,7 +267,7 @@ const fr: Dictionary = {
   fMessage: 'Message',
   fSend: 'Envoyer',
   fSending: 'Envoi…',
-  fSuccess: 'Message envoyé. Nous vous répondons très vite.',
+  fSuccess: 'Message envoyé. Nous vous répondrons très vite.',
   fError: 'L’envoi a échoué. Réessayez ou écrivez-nous directement.',
   fRequired: 'Ce champ est requis.',
   fInvalidEmail: 'Adresse email invalide.',
